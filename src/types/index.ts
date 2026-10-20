@@ -72,3 +72,4 @@ export interface DiCurvePoint {
   rate: number;
   diffDay: number;
 }
+

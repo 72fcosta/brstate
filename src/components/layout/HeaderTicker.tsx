@@ -107,3 +107,4 @@ export const HeaderTicker: React.FC<HeaderTickerProps> = ({
     </header>
   );
 };
+

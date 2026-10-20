@@ -161,3 +161,4 @@ export const MonetaryPolicyView: React.FC<MonetaryPolicyViewProps> = ({ onOpenEx
     </div>
   );
 };
+

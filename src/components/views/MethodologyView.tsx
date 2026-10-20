@@ -154,3 +154,4 @@ export const MethodologyView: React.FC = () => {
     </div>
   );
 };
+

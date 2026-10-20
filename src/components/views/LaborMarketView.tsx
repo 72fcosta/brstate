@@ -146,3 +146,4 @@ export const LaborMarketView: React.FC<LaborMarketViewProps> = ({ onOpenExport }
     </div>
   );
 };
+

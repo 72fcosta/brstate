@@ -146,3 +146,4 @@ export const ExternalSectorView: React.FC<ExternalSectorViewProps> = ({ onOpenEx
     </div>
   );
 };
+

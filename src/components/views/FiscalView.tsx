@@ -144,3 +144,4 @@ export const FiscalView: React.FC<FiscalViewProps> = ({ onOpenExport }) => {
     </div>
   );
 };
+
