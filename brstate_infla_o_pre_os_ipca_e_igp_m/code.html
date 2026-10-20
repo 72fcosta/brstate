@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-background" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BrState - Inflação &amp; Preços: Terminal Macroeconômico</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Inter Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration matching Visual Identity exactly -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-surface": "#151c25",
+            "surface-tint": "#485f82",
+            "surface-container-highest": "#dce3ef",
+            "on-primary-container": "#7a92b7",
+            "tertiary": "#1e1300",
+            "on-primary": "#ffffff",
+            "primary-container": "#0f2a4a",
+            "surface": "#f8f9ff",
+            "inverse-surface": "#2a313a",
+            "inverse-on-surface": "#eaf1fd",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#382600",
+            "primary-fixed": "#d4e3ff",
+            "outline": "#74777f",
+            "on-primary-fixed": "#001c3a",
+            "on-tertiary": "#ffffff",
+            "tertiary-fixed-dim": "#f7bd48",
+            "on-secondary-fixed": "#002117",
+            "on-secondary-fixed-variant": "#00513d",
+            "surface-container-high": "#e2e9f5",
+            "on-tertiary-container": "#ba880e",
+            "secondary": "#246a53",
+            "on-background": "#151c25",
+            "on-error-container": "#93000a",
+            "surface-container-lowest": "#ffffff",
+            "on-error": "#ffffff",
+            "surface-dim": "#d4dae6",
+            "on-surface-variant": "#43474e",
+            "on-secondary-container": "#2b7059",
+            "secondary-container": "#abf1d4",
+            "error": "#ba1a1a",
+            "background": "#f8f9ff",
+            "error-container": "#ffdad6",
+            "surface-bright": "#f8f9ff",
+            "secondary-fixed": "#abf1d4",
+            "surface-container": "#e8eefa",
+            "primary": "#00152f",
+            "inverse-primary": "#b0c8f0",
+            "tertiary-fixed": "#ffdea6",
+            "on-primary-fixed-variant": "#304869",
+            "primary-fixed-dim": "#b0c8f0",
+            "on-tertiary-fixed": "#271900",
+            "on-tertiary-fixed-variant": "#5d4200",
+            "surface-variant": "#dce3ef",
+            "secondary-fixed-dim": "#90d4b9",
+            "surface-container-low": "#eef4ff",
+            "outline-variant": "#c4c6cf"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "margin-sm": "1rem",
+            "gutter": "1rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2rem",
+            "space-md": "1rem",
+            "gutter-lg": "1.5rem",
+            "space-sm": "0.5rem",
+            "space-lg": "1.5rem",
+            "margin": "1.5rem",
+            "margin-lg": "2rem"
+          },
+          "fontFamily": {
+            "metric-tabular": ["Inter"],
+            "metric-display": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-xl": ["Inter"],
+            "label-sm": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-sm": ["Inter"],
+            "label-md": ["Inter"],
+            "body-sm": ["Inter"],
+            "body-lg": ["Inter"]
+          },
+          "fontSize": {
+            "metric-tabular": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "metric-display": ["28px", { "lineHeight": "32px", "letterSpacing": "-0.03em", "fontWeight": "600" }],
+            "headline-xl-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "500" }],
+            "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.025em", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.005em", "fontWeight": "400" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+    /* Subtle custom scrollbar for financial desktop density */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f8f9ff;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #c4c6cf;
+      border-radius: 2px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #74777f;
+    }
+  </style>
+</head>
+<body class="h-full bg-background text-on-surface antialiased overflow-x-hidden flex">
+<!-- ========================================================================= -->
+<!-- 1. FIXED SIDENAVBAR (Shared Component Blueprint Executed Exact from JSON) -->
+<!-- ========================================================================= -->
+<aside class="fixed left-0 top-0 h-screen w-64 border-r border-outline-variant bg-surface-container-lowest z-50 flex flex-col justify-between py-4 px-3 select-none">
+<!-- Header / Brand Section -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 px-2 pt-1 pb-3 border-b border-outline-variant">
+<!-- Institutional Logo from DataStore -->
+<img alt="BrState Brasão Institucional" class="h-8 w-auto object-contain rounded-lg" src="https://lh3.googleusercontent.com/aida/AEtjO1X3jFLJoRiboD9C4h2f0tFV0ZRy4BGNGULlJWLYvHOBB8eFUQ3cigU2TaEtgI5P7p8tawi7phifA42FKstn8u3NBBqZUQdfzPKuJbhQ2Nbd5Bpok4P3ffIMe-qah8ZshnebPw5ubvFCyPZkNCSEtKgwiCBRaUND2-TE_mMC85ck-SR4RyITaM71EsD8F-P-PbFsng5G51hrIomiuI7d2dok9g1d_wOqXrMxFpxSaPotb1nwhiYoVLAKkOwo"/>
+<div class="flex flex-col">
+<span class="text-headline-sm font-headline-sm font-bold tracking-tight text-primary leading-tight">BrState</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant font-medium">Inteligência Macroeconômica</span>
+</div>
+</div>
+<!-- Navigation Tabs (7 tabs defined in JSON) -->
+<nav class="flex flex-col space-y-1">
+<!-- 1. Visão Geral (Inactive) -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container px-3 py-2 font-normal rounded-lg transition-all duration-150 ease-in-out text-label-md font-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px] text-outline group-hover:text-primary">dashboard</span>
+<span>Visão Geral</span>
+</a>
+<!-- 2. Atividade Econômica / PIB (Inactive) -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container px-3 py-2 font-normal rounded-lg transition-all duration-150 ease-in-out text-label-md font-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px] text-outline group-hover:text-primary">trending_up</span>
+<span>Atividade Econômica / PIB</span>
+</a>
+<!-- 3. Inflação & Preços (ACTIVE TAB - Exactly matched and styled via JSON) -->
+<a class="flex items-center justify-between bg-surface-container text-primary font-medium rounded-lg px-3 py-2 border-l-2 border-secondary transition-all duration-150 ease-in-out text-label-md font-label-md shadow-sm" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px] text-secondary" style="font-variation-settings: 'FILL' 1;">price_change</span>
+<span class="font-semibold text-primary">Inflação &amp; Preços</span>
+</div>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-secondary text-on-secondary">4,42%</span>
+</a>
+<!-- 4. Política Monetária & Juros (Inactive) -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container px-3 py-2 font-normal rounded-lg transition-all duration-150 ease-in-out text-label-md font-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px] text-outline group-hover:text-primary">account_balance</span>
+<span>Política Monetária &amp; Juros</span>
+</a>
+<!-- 5. Mercado de Trabalho (Inactive) -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container px-3 py-2 font-normal rounded-lg transition-all duration-150 ease-in-out text-label-md font-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px] text-outline group-hover:text-primary">badge</span>
+<span>Mercado de Trabalho</span>
+</a>
+<!-- 6. Setor Externo (Inactive) -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container px-3 py-2 font-normal rounded-lg transition-all duration-150 ease-in-out text-label-md font-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px] text-outline group-hover:text-primary">currency_exchange</span>
+<span>Setor Externo</span>
+</a>
+<!-- 7. Fiscal (Inactive) -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container px-3 py-2 font-normal rounded-lg transition-all duration-150 ease-in-out text-label-md font-label-md group" href="#">
+<span class="material-symbols-outlined text-[18px] text-outline group-hover:text-primary">receipt_long</span>
+<span>Fiscal</span>
+</a>
+</nav>
+</div>
+<!-- Sidebar Bottom / Footer Controls -->
+<div class="flex flex-col gap-2 pt-3 border-t border-outline-variant">
+<!-- CTA Button from JSON -->
+<button class="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary-container text-on-primary py-2 px-3 rounded-lg text-label-md font-label-md shadow-sm transition-colors duration-150">
+<span class="material-symbols-outlined text-[16px]">file_download</span>
+<span>Exportar Dados</span>
+</button>
+<!-- Footer Tabs from JSON -->
+<div class="flex flex-col space-y-0.5 mt-1">
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low px-3 py-1.5 rounded-lg text-body-sm font-body-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px] text-outline">settings</span>
+<span>Configurações</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low px-3 py-1.5 rounded-lg text-body-sm font-body-sm transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px] text-outline">help</span>
+<span>Ajuda &amp; Documentação</span>
+</a>
+</div>
+<!-- Live Terminal Status Badge -->
+<div class="px-3 py-2 rounded-lg bg-surface-container flex items-center justify-between text-label-sm font-label-sm mt-1">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="text-on-surface-variant">SIDRA / BACEN</span>
+</div>
+<span class="text-outline font-metric-tabular">v2.4 Live</span>
+</div>
+</div>
+</aside>
+<!-- ========================================================================= -->
+<!-- 2. MAIN WORKSTATION CANVAS (Left Offset by 256px to clear fixed SideNav) -->
+<!-- ========================================================================= -->
+<div class="flex-1 ml-64 min-w-0 flex flex-col min-h-screen">
+<!-- ======================================================================= -->
+<!-- TOPNAVBAR (Shared Component: Macro Ticker Header, Search & Quick Actions) -->
+<!-- ======================================================================= -->
+<header class="w-full h-10 border-b border-outline-variant bg-surface-container-lowest flex items-center justify-between px-4 sticky top-0 z-40 shadow-none">
+<!-- Live Sovereign Macro Ticker (Left to Center) -->
+<div class="flex items-center gap-5 text-label-sm font-label-sm overflow-x-auto py-1">
+<div class="flex items-center gap-1.5 shrink-0 font-medium">
+<span class="text-on-surface-variant">IPCA 12M:</span>
+<span class="text-primary font-semibold tabular-nums">4,42%</span>
+<span class="text-error flex items-center text-[10px]">▲ +0,08pp</span>
+</div>
+<div class="h-3 w-px bg-outline-variant shrink-0"></div>
+<div class="flex items-center gap-1.5 shrink-0 font-medium">
+<span class="text-on-surface-variant">IGP-M 12M:</span>
+<span class="text-primary font-semibold tabular-nums">5,12%</span>
+<span class="text-error flex items-center text-[10px]">▲ +0,45%</span>
+</div>
+<div class="h-3 w-px bg-outline-variant shrink-0"></div>
+<div class="flex items-center gap-1.5 shrink-0 font-medium">
+<span class="text-on-surface-variant">Selic Meta:</span>
+<span class="text-primary font-semibold tabular-nums">13,25%</span>
+<span class="text-secondary flex items-center text-[10px]">● Neutro</span>
+</div>
+<div class="h-3 w-px bg-outline-variant shrink-0"></div>
+<div class="flex items-center gap-1.5 shrink-0 font-medium">
+<span class="text-on-surface-variant">Meta CMN:</span>
+<span class="text-primary font-semibold tabular-nums">3,00%</span>
+<span class="text-on-surface-variant text-[10px]">(± 1,5pp)</span>
+</div>
+<div class="h-3 w-px bg-outline-variant shrink-0"></div>
+<div class="flex items-center gap-1.5 shrink-0 font-medium">
+<span class="text-on-surface-variant">IPCA Mensal:</span>
+<span class="text-primary font-semibold tabular-nums">+0,38%</span>
+<span class="text-error flex items-center text-[10px]">▲ IBGE</span>
+</div>
+</div>
+<!-- Search & Trailing Quick Actions (Right aligned) -->
+<div class="flex items-center gap-3 shrink-0 ml-4">
+<!-- Series Search Box -->
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-[16px] text-outline">search</span>
+<input class="w-full pl-8 pr-2.5 py-1 text-body-sm font-body-sm bg-surface-container-low border border-outline-variant rounded focus:bg-surface-container-lowest focus:border-primary focus:ring-0 focus:outline-none transition-colors" placeholder="Buscar séries (BACEN, IBGE, FGV)..." type="text"/>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center gap-1">
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded transition-colors flex items-center" title="Filtros Analíticos">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded transition-colors relative flex items-center" title="Notificações e Alertas">
+<span class="material-symbols-outlined text-[18px]">notifications</span>
+<span class="absolute top-1 right-1 w-1.5 h-1.5 bg-error rounded-full"></span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded transition-colors flex items-center" title="Conta de Pesquisador">
+<span class="material-symbols-outlined text-[18px]">account_circle</span>
+</button>
+</div>
+<div class="h-4 w-px bg-outline-variant"></div>
+<!-- Export button -->
+<button class="flex items-center gap-1.5 bg-surface-container-high hover:bg-surface-container text-primary font-medium px-2.5 py-1 rounded text-label-sm font-label-sm border border-outline-variant transition-colors">
+<span class="material-symbols-outlined text-[14px]">download</span>
+<span>Exportar Relatório</span>
+</button>
+</div>
+</header>
+<!-- ======================================================================= -->
+<!-- MAIN CONTENT VIEWPORT -->
+<!-- ======================================================================= -->
+<main class="flex-1 p-6 space-y-6">
+<!-- SECTION 1: HEADER & CONTROLS -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-outline-variant">
+<div>
+<!-- Breadcrumb -->
+<nav class="flex items-center gap-1 text-label-sm font-label-sm text-on-surface-variant mb-1">
+<a class="hover:text-primary transition-colors" href="#">Terminal</a>
+<span class="text-outline">/</span>
+<a class="hover:text-primary transition-colors" href="#">Índices de Preços</a>
+<span class="text-outline">/</span>
+<span class="text-primary font-medium">Inflação ao Consumidor &amp; Geral</span>
+</nav>
+<h1 class="text-headline-lg font-headline-lg text-primary tracking-tight font-bold">
+            Inflação &amp; Preços: IPCA, IGP-M e Núcleos
+          </h1>
+<p class="text-body-md font-body-md text-on-surface-variant mt-0.5">
+            Evolução dos índices de preços ao consumidor (IBGE) e mercado geral (FGV), metas de inflação e decomposição setorial.
+          </p>
+</div>
+<!-- Interactive Header Controls -->
+<div class="flex flex-wrap items-center gap-3">
+<!-- Time Horizon Segmented Control -->
+<div class="inline-flex p-0.5 bg-surface-container border border-outline-variant rounded-lg text-label-md font-label-md">
+<button class="px-2.5 py-1 rounded text-on-surface-variant hover:text-on-surface transition-colors">12M</button>
+<button class="px-2.5 py-1 rounded text-on-surface-variant hover:text-on-surface transition-colors">24M</button>
+<button class="px-2.5 py-1 rounded bg-surface-container-lowest text-primary font-semibold shadow-xs">5 Anos</button>
+<button class="px-2.5 py-1 rounded text-on-surface-variant hover:text-on-surface transition-colors">Histórico Completo</button>
+</div>
+<!-- Series View Toggle -->
+<div class="flex items-center gap-2 bg-surface-container-lowest border border-outline-variant px-3 py-1.5 rounded-lg text-label-sm font-label-sm shadow-xs">
+<span class="text-on-surface-variant">Visão:</span>
+<span class="font-semibold text-primary">Acumulado 12M</span>
+<span class="text-outline">|</span>
+<span class="text-on-surface-variant hover:text-on-surface cursor-pointer">Variação Mensal</span>
+</div>
+<!-- Export Action -->
+<button class="flex items-center gap-1.5 bg-primary hover:bg-primary-container text-on-primary px-3 py-1.5 rounded-lg text-label-md font-label-md transition-all shadow-xs">
+<span class="material-symbols-outlined text-[16px]">file_download</span>
+<span>Exportar Séries (CSV/XLS)</span>
+</button>
+</div>
+</section>
+<!-- SECTION 2: TOP METRIC KPI BENTO CARDS (4 Essential Metrics) -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- CARD 1: IPCA 12M -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between hover:border-surface-tint transition-all shadow-xs relative overflow-hidden group">
+<div class="flex items-start justify-between mb-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm font-bold text-primary tracking-wider">IPCA 12 MESES</span>
+<span class="px-1.5 py-0.2 rounded text-[10px] font-semibold bg-surface-container text-on-surface-variant border border-outline-variant">IBGE Oficial</span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant mt-0.5">Índice Nacional de Preços Amplo</p>
+</div>
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded text-[11px] font-medium bg-secondary-container text-on-secondary-container">
+              Dentro da Banda
+            </span>
+</div>
+<div class="flex items-baseline gap-2 my-2">
+<span class="text-metric-display font-metric-display text-primary tabular-nums tracking-tight">4,42%</span>
+<span class="text-label-sm font-label-sm text-error font-medium flex items-center">
+              ▲ +0,08pp <span class="text-on-surface-variant ml-1 font-normal">no mês</span>
+</span>
+</div>
+<div class="pt-2 border-t border-outline-variant/60 flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface-variant text-[11px]">Teto da Meta: <strong class="text-on-surface font-semibold">4,50%</strong></span>
+<!-- Embedded SVG Mini Sparkline -->
+<svg class="w-20 h-6 overflow-visible" viewbox="0 0 80 24">
+<path d="M0,20 Q20,18 35,8 T60,14 T80,11" fill="none" stroke="#246a53" stroke-linecap="round" stroke-width="2"></path>
+<circle cx="80" cy="11" fill="#246a53" r="2.5"></circle>
+</svg>
+</div>
+</div>
+<!-- CARD 2: IGP-M 12M -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between hover:border-surface-tint transition-all shadow-xs group">
+<div class="flex items-start justify-between mb-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm font-bold text-primary tracking-wider">IGP-M 12 MESES</span>
+<span class="px-1.5 py-0.2 rounded text-[10px] font-semibold bg-surface-container text-on-surface-variant border border-outline-variant">FGV IBRE</span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant mt-0.5">Geral de Preços do Mercado</p>
+</div>
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded text-[11px] font-medium bg-tertiary-fixed text-on-tertiary-fixed-variant">
+              Pressão Cambial
+            </span>
+</div>
+<div class="flex items-baseline gap-2 my-2">
+<span class="text-metric-display font-metric-display text-primary tabular-nums tracking-tight">5,12%</span>
+<span class="text-label-sm font-label-sm text-error font-medium flex items-center">
+              ▲ +0,45% <span class="text-on-surface-variant ml-1 font-normal">no mês</span>
+</span>
+</div>
+<div class="pt-2 border-t border-outline-variant/60 flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface-variant text-[11px]">IPA-M Atacado: <strong class="text-on-surface font-semibold">+5,88%</strong></span>
+<!-- Embedded SVG Mini Sparkline -->
+<svg class="w-20 h-6 overflow-visible" viewbox="0 0 80 24">
+<path d="M0,22 Q15,24 30,19 T55,5 T80,4" fill="none" stroke="#ba880e" stroke-linecap="round" stroke-width="2"></path>
+<circle cx="80" cy="4" fill="#ba880e" r="2.5"></circle>
+</svg>
+</div>
+</div>
+<!-- CARD 3: META DE INFLAÇÃO CMN -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between hover:border-surface-tint transition-all shadow-xs group">
+<div class="flex items-start justify-between mb-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm font-bold text-primary tracking-wider">META CMN 2024-25</span>
+<span class="px-1.5 py-0.2 rounded text-[10px] font-semibold bg-surface-container text-on-surface-variant border border-outline-variant">BACEN</span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant mt-0.5">Conselho Monetário Nacional</p>
+</div>
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded text-[11px] font-medium bg-surface-container-high text-primary">
+              Horizonte Contínuo
+            </span>
+</div>
+<div class="flex items-baseline gap-2 my-2">
+<span class="text-metric-display font-metric-display text-primary tabular-nums tracking-tight">3,00%</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant font-medium">
+              ± 1,50pp <span class="text-outline font-normal">tolerância</span>
+</span>
+</div>
+<div class="pt-2 border-t border-outline-variant/60 flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface-variant text-[11px]">Banda: <strong class="text-on-surface font-semibold">1,50% — 4,50%</strong></span>
+<div class="w-20 h-2 bg-surface-container rounded-full overflow-hidden flex">
+<div class="w-1/4 bg-transparent"></div>
+<div class="w-1/2 bg-secondary/30 border-l border-r border-secondary/50"></div>
+<div class="w-1/4 bg-transparent"></div>
+</div>
+</div>
+</div>
+<!-- CARD 4: NÚCLEO BACEN -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between hover:border-surface-tint transition-all shadow-xs group">
+<div class="flex items-start justify-between mb-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm font-bold text-primary tracking-wider">MÉDIA DOS NÚCLEOS</span>
+<span class="px-1.5 py-0.2 rounded text-[10px] font-semibold bg-surface-container text-on-surface-variant border border-outline-variant">BACEN (5 Médias)</span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant mt-0.5">Desconsidera Alimentos &amp; Energia</p>
+</div>
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded text-[11px] font-medium bg-secondary-container text-on-secondary-container">
+              Desinflação
+            </span>
+</div>
+<div class="flex items-baseline gap-2 my-2">
+<span class="text-metric-display font-metric-display text-primary tabular-nums tracking-tight">3,95%</span>
+<span class="text-label-sm font-label-sm text-secondary font-medium flex items-center">
+              ▼ -0,12pp <span class="text-on-surface-variant ml-1 font-normal">no mês</span>
+</span>
+</div>
+<div class="pt-2 border-t border-outline-variant/60 flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface-variant text-[11px]">Serviços Subjacentes: <strong class="text-on-surface font-semibold">4,60%</strong></span>
+<!-- Embedded SVG Mini Sparkline -->
+<svg class="w-20 h-6 overflow-visible" viewbox="0 0 80 24">
+<path d="M0,8 Q20,10 40,14 T65,18 T80,19" fill="none" stroke="#246a53" stroke-linecap="round" stroke-width="2"></path>
+<circle cx="80" cy="19" fill="#246a53" r="2.5"></circle>
+</svg>
+</div>
+</div>
+</section>
+<!-- SECTION 3: COMPARATIVE LINE CHART CONTAINER (IPCA vs IGP-M: 2020 - 2025) -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-xs">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-outline-variant/70">
+<div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">show_chart</span>
+<h2 class="text-headline-sm font-headline-sm text-primary font-bold">
+                Evolução Comparativa: IPCA vs IGP-M (Acumulado em 12 Meses, 2020 – 2025)
+              </h2>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-0.5">
+              Trajetória dos índices de preços ao consumidor e mercado geral sobre a banda de tolerância do CMN (3,00% ± 1,5pp).
+            </p>
+</div>
+<!-- Interactive Legend & Axis Controls -->
+<div class="flex items-center gap-4 text-label-sm font-label-sm">
+<div class="flex items-center gap-1.5 cursor-pointer">
+<span class="w-3.5 h-1 bg-secondary rounded-full"></span>
+<span class="font-semibold text-primary">IPCA 12M (IBGE)</span>
+</div>
+<div class="flex items-center gap-1.5 cursor-pointer">
+<span class="w-3.5 h-1 bg-on-tertiary-container rounded-full"></span>
+<span class="font-semibold text-primary">IGP-M 12M (FGV)</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="w-3.5 h-1 border-b border-dashed border-outline"></span>
+<span>Centro da Meta (3,0%)</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="w-3 h-3 bg-surface-container-high/60 border border-outline-variant/60 rounded-xs"></span>
+<span>Banda CMN (1,5% - 4,5%)</span>
+</div>
+</div>
+</div>
+<!-- Analytical SVG Chart Canvas -->
+<div class="relative w-full pt-4 pb-2">
+<!-- Tooltip Simulation (Interactive Point at Current Date) -->
+<div class="absolute right-[4%] top-[42%] z-20 pointer-events-none bg-primary text-on-primary p-2.5 rounded-lg shadow-lg border border-primary-container text-[11px] leading-tight">
+<div class="font-bold border-b border-outline-variant/30 pb-1 mb-1.5 text-secondary-fixed">Março / 2025 (Corrente)</div>
+<div class="flex items-center justify-between gap-3 text-surface-bright">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary-fixed"></span> IPCA 12M:</span>
+<span class="font-bold font-metric-tabular">4,42%</span>
+</div>
+<div class="flex items-center justify-between gap-3 text-surface-bright mt-0.5">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></span> IGP-M 12M:</span>
+<span class="font-bold font-metric-tabular">5,12%</span>
+</div>
+<div class="flex items-center justify-between gap-3 text-on-primary-container mt-0.5 pt-1 border-t border-outline-variant/20">
+<span>Banda CMN:</span>
+<span class="font-medium">1,50% — 4,50%</span>
+</div>
+</div>
+<!-- SVG Canvas with Gridlines, Shaded Bands and Realistic Paths -->
+<svg class="w-full h-80 overflow-visible" preserveaspectratio="none" viewbox="0 0 1000 320">
+<defs>
+<lineargradient id="bandGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#246a53" stop-opacity="0.08"></stop>
+<stop offset="100%" stop-color="#246a53" stop-opacity="0.03"></stop>
+</lineargradient>
+</defs>
+<!-- Horizontal Gridlines & Y-Axis Scale Values -->
+<!-- 35% Level (IGP-M Peak Shock in 2021) -->
+<line stroke="#E2E7ED" stroke-dasharray="3 3" stroke-width="1" x1="40" x2="980" y1="20" y2="20"></line>
+<text fill="#74777F" font-family="Inter" font-size="10" font-weight="500" text-anchor="end" x="32" y="24">+35%</text>
+<!-- 25% Level -->
+<line stroke="#E2E7ED" stroke-dasharray="3 3" stroke-width="1" x1="40" x2="980" y1="65" y2="65"></line>
+<text fill="#74777F" font-family="Inter" font-size="10" font-weight="500" text-anchor="end" x="32" y="69">+25%</text>
+<!-- 15% Level -->
+<line stroke="#E2E7ED" stroke-dasharray="3 3" stroke-width="1" x1="40" x2="980" y1="120" y2="120"></line>
+<text fill="#74777F" font-family="Inter" font-size="10" font-weight="500" text-anchor="end" x="32" y="124">+15%</text>
+<!-- CMN TOLERANCE BAND RECTANGLE (1.50% to 4.50%) -->
+<!-- Upper bound: 4.5% corresponds to Y=210. Lower bound: 1.5% corresponds to Y=240 -->
+<rect fill="url(#bandGradient)" height="30" stroke="#246a53" stroke-opacity="0.3" stroke-width="0.75" width="940" x="40" y="210"></rect>
+<text fill="#246a53" font-family="Inter" font-size="9" font-weight="600" x="982" y="213">Teto 4,5%</text>
+<text fill="#246a53" font-family="Inter" font-size="9" font-weight="600" x="982" y="242">Piso 1,5%</text>
+<!-- Center of Inflation Target: 3.00% (Y=225) -->
+<line stroke="#00152F" stroke-dasharray="4 4" stroke-opacity="0.6" stroke-width="1.2" x1="40" x2="980" y1="225" y2="225"></line>
+<text fill="#00152F" font-family="Inter" font-size="10" font-weight="600" text-anchor="end" x="32" y="228">3,0%</text>
+<!-- 0% Baseline Level -->
+<line stroke="#C4C6CF" stroke-width="1.2" x1="40" x2="980" y1="255" y2="255"></line>
+<text fill="#74777F" font-family="Inter" font-size="10" font-weight="500" text-anchor="end" x="32" y="259">0%</text>
+<!-- Deflation Level (-5%) -->
+<line stroke="#E2E7ED" stroke-dasharray="3 3" stroke-width="1" x1="40" x2="980" y1="285" y2="285"></line>
+<text fill="#74777F" font-family="Inter" font-size="10" font-weight="500" text-anchor="end" x="32" y="289">-5%</text>
+<!-- Vertical Time Delimiters (2020, 2021, 2022, 2023, 2024, 2025) -->
+<line stroke="#E2E7ED" stroke-width="1" x1="100" x2="100" y1="20" y2="295"></line>
+<text fill="#43474E" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle" x="100" y="310">2020</text>
+<line stroke="#E2E7ED" stroke-width="1" x1="280" x2="280" y1="20" y2="295"></line>
+<text fill="#43474E" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle" x="280" y="310">2021</text>
+<line stroke="#E2E7ED" stroke-width="1" x1="460" x2="460" y1="20" y2="295"></line>
+<text fill="#43474E" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle" x="460" y="310">2022</text>
+<line stroke="#E2E7ED" stroke-width="1" x1="640" x2="640" y1="20" y2="295"></line>
+<text fill="#43474E" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle" x="640" y="310">2023</text>
+<line stroke="#E2E7ED" stroke-width="1" x1="820" x2="820" y1="20" y2="295"></line>
+<text fill="#43474E" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle" x="820" y="310">2024</text>
+<line stroke="#E2E7ED" stroke-width="1" x1="950" x2="950" y1="20" y2="295"></line>
+<text fill="#00152F" font-family="Inter" font-size="11" font-weight="700" text-anchor="middle" x="950" y="310">2025</text>
+<!-- SERIE 2: IGP-M (Amber / Ocre line - showing massive 37% jump in 2021, drops to -4.5% deflation in 2023, then stabilizes at +5.12%) -->
+<path d="M 50,230 
+                 Q 90,210 130,160 
+                 T 220,50 
+                 T 290,25 
+                 T 380,80 
+                 T 460,180 
+                 T 560,250 
+                 T 650,285 
+                 T 750,270 
+                 T 850,230 
+                 T 950,205" fill="none" stroke="#ba880e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+<!-- SERIE 1: IPCA (Emerald Green line - showing peak at 12.13% in 2022, drop to 3.9% in 2023, and current 4.42%) -->
+<path d="M 50,235 
+                 Q 100,240 180,215 
+                 T 320,185 
+                 T 440,140 
+                 T 480,135 
+                 T 560,195 
+                 T 660,225 
+                 T 760,220 
+                 T 860,215 
+                 T 950,212" fill="none" stroke="#246a53" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+<!-- Historical Key Point Callouts on IPCA -->
+<!-- Peak IPCA 12.13% in April 2022 -->
+<circle cx="480" cy="135" fill="#246a53" r="4" stroke="#FFFFFF" stroke-width="1.5"></circle>
+<text fill="#00152F" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle" x="480" y="125">Pico IPCA 12,13%</text>
+<!-- Peak IGP-M 37.04% in May 2021 -->
+<circle cx="290" cy="25" fill="#ba880e" r="4" stroke="#FFFFFF" stroke-width="1.5"></circle>
+<text fill="#1e1300" font-family="Inter" font-size="10" font-weight="700" text-anchor="middle" x="290" y="16">Pico IGP-M 37,04%</text>
+<!-- Deflation IGP-M 2023 -->
+<circle cx="650" cy="285" fill="#ba880e" r="3.5" stroke="#FFFFFF" stroke-width="1.5"></circle>
+<text fill="#ba880e" font-family="Inter" font-size="9" font-weight="600" text-anchor="middle" x="650" y="299">Deflação IGP-M -4,5%</text>
+<!-- Current Crosshairs Point (March 2025) -->
+<line stroke="#00152F" stroke-dasharray="2 2" stroke-opacity="0.4" stroke-width="1" x1="950" x2="950" y1="20" y2="295"></line>
+<circle cx="950" cy="212" fill="#246a53" r="5" stroke="#FFFFFF" stroke-width="2"></circle>
+<circle cx="950" cy="205" fill="#ba880e" r="5" stroke="#FFFFFF" stroke-width="2"></circle>
+</svg>
+</div>
+<!-- Footnote & Methodology source bar -->
+<div class="flex flex-wrap items-center justify-between text-body-sm font-body-sm text-on-surface-variant pt-3 border-t border-outline-variant/60">
+<div class="flex items-center gap-3">
+<span class="text-[11px]">Fontes: <strong>IBGE (SIDRA / SNIPC)</strong> e <strong>FGV IBRE</strong>. Séries dessazonalizadas e acumuladas em 12 meses.</span>
+</div>
+<div class="flex items-center gap-2 text-[11px]">
+<span class="inline-block w-2 h-2 rounded-full bg-secondary"></span>
+<span>Regime de Meta Contínua (Decreto nº 12.079/2024)</span>
+</div>
+</div>
+</section>
+<!-- SECTION 4: LOWER DETAILED ANALYTICS (Two-Column Bento Layout) -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- COLUMN A (7 cols): Decomposição dos 9 Grupos do IPCA -->
+<div class="lg:col-span-7 bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-xs flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant">
+<div>
+<h3 class="text-headline-sm font-headline-sm text-primary font-bold">
+                  Decomposição por Grupos de Consumo (IPCA)
+                </h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+                  Peso na cesta de consumo das famílias (1 a 40 SM) e impacto acumulado em pontos percentuais (12M).
+                </p>
+</div>
+<span class="text-label-sm font-label-sm px-2 py-1 bg-surface-container rounded text-primary font-semibold">
+                Soma: 100,0%
+              </span>
+</div>
+<!-- Structured Analytical Table with 36px Strict Rows & Inline Visual Progress Bars -->
+<div class="overflow-x-auto mt-2">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-label-sm font-label-sm text-on-surface-variant border-b border-outline-variant">
+<th class="py-2 font-semibold">Grupo de Despesa</th>
+<th class="py-2 text-right font-semibold">Peso (%)</th>
+<th class="py-2 text-right font-semibold">Var. 12M</th>
+<th class="py-2 text-right font-semibold">Impacto (pp)</th>
+<th class="py-2 pl-4 font-semibold">Pressão Relativa</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/50 text-body-sm font-body-sm">
+<!-- 1. Alimentação e Bebidas -->
+<tr class="h-9 hover:bg-surface-container-low transition-colors">
+<td class="font-medium text-primary flex items-center gap-2 pt-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                      Alimentação e Bebidas
+                    </td>
+<td class="text-right tabular-nums text-on-surface font-metric-tabular">21,50%</td>
+<td class="text-right tabular-nums text-error font-semibold font-metric-tabular">+6,80%</td>
+<td class="text-right tabular-nums font-bold text-primary font-metric-tabular">+1,46</td>
+<td class="pl-4">
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden flex">
+<div class="bg-error h-2 rounded-full" style="width: 88%;"></div>
+</div>
+</td>
+</tr>
+<!-- 2. Saúde e Cuidados Pessoais -->
+<tr class="h-9 hover:bg-surface-container-low transition-colors">
+<td class="font-medium text-primary flex items-center gap-2 pt-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                      Saúde e Cuidados Pessoais
+                    </td>
+<td class="text-right tabular-nums text-on-surface font-metric-tabular">13,40%</td>
+<td class="text-right tabular-nums text-error font-semibold font-metric-tabular">+5,90%</td>
+<td class="text-right tabular-nums font-bold text-primary font-metric-tabular">+0,79</td>
+<td class="pl-4">
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-error h-2 rounded-full" style="width: 54%;"></div>
+</div>
+</td>
+</tr>
+<!-- 3. Habitação -->
+<tr class="h-9 hover:bg-surface-container-low transition-colors">
+<td class="font-medium text-primary flex items-center gap-2 pt-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed-dim"></span>
+                      Habitação (Tarifas Elétricas)
+                    </td>
+<td class="text-right tabular-nums text-on-surface font-metric-tabular">15,20%</td>
+<td class="text-right tabular-nums text-on-surface font-semibold font-metric-tabular">+4,25%</td>
+<td class="text-right tabular-nums font-bold text-primary font-metric-tabular">+0,65</td>
+<td class="pl-4">
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-on-tertiary-container h-2 rounded-full" style="width: 44%;"></div>
+</div>
+</td>
+</tr>
+<!-- 4. Transportes -->
+<tr class="h-9 hover:bg-surface-container-low transition-colors">
+<td class="font-medium text-primary flex items-center gap-2 pt-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed-dim"></span>
+                      Transportes (Combustíveis)
+                    </td>
+<td class="text-right tabular-nums text-on-surface font-metric-tabular">20,80%</td>
+<td class="text-right tabular-nums text-on-surface font-semibold font-metric-tabular">+3,10%</td>
+<td class="text-right tabular-nums font-bold text-primary font-metric-tabular">+0,64</td>
+<td class="pl-4">
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-on-tertiary-container h-2 rounded-full" style="width: 43%;"></div>
+</div>
+</td>
+</tr>
+<!-- 5. Despesas Pessoais -->
+<tr class="h-9 hover:bg-surface-container-low transition-colors">
+<td class="font-medium text-primary flex items-center gap-2 pt-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                      Despesas Pessoais
+                    </td>
+<td class="text-right tabular-nums text-on-surface font-metric-tabular">10,10%</td>
+<td class="text-right tabular-nums text-on-surface font-metric-tabular">+4,15%</td>
+<td class="text-right tabular-nums font-bold text-primary font-metric-tabular">+0,42</td>
+<td class="pl-4">
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-surface-tint h-2 rounded-full" style="width: 29%;"></div>
+</div>
+</td>
+</tr>
+<!-- 6. Educação -->
+<tr class="h-9 hover:bg-surface-container-low transition-colors">
+<td class="font-medium text-primary flex items-center gap-2 pt-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                      Educação
+                    </td>
+<td class="text-right tabular-nums text-on-surface font-metric-tabular">6,00%</td>
+<td class="text-right tabular-nums text-on-surface font-metric-tabular">+5,80%</td>
+<td class="text-right tabular-nums font-bold text-primary font-metric-tabular">+0,35</td>
+<td class="pl-4">
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-surface-tint h-2 rounded-full" style="width: 24%;"></div>
+</div>
+</td>
+</tr>
+<!-- 7. Vestuário -->
+<tr class="h-9 hover:bg-surface-container-low transition-colors">
+<td class="font-medium text-primary flex items-center gap-2 pt-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                      Vestuário
+                    </td>
+<td class="text-right tabular-nums text-on-surface font-metric-tabular">4,70%</td>
+<td class="text-right tabular-nums text-secondary font-metric-tabular">+1,20%</td>
+<td class="text-right tabular-nums font-bold text-primary font-metric-tabular">+0,06</td>
+<td class="pl-4">
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-secondary h-2 rounded-full" style="width: 5%;"></div>
+</div>
+</td>
+</tr>
+<!-- 8. Artigos de Residência -->
+<tr class="h-9 hover:bg-surface-container-low transition-colors">
+<td class="font-medium text-primary flex items-center gap-2 pt-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                      Artigos de Residência
+                    </td>
+<td class="text-right tabular-nums text-on-surface font-metric-tabular">3,40%</td>
+<td class="text-right tabular-nums text-secondary font-metric-tabular">+0,90%</td>
+<td class="text-right tabular-nums font-bold text-primary font-metric-tabular">+0,03</td>
+<td class="pl-4">
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-secondary h-2 rounded-full" style="width: 3%;"></div>
+</div>
+</td>
+</tr>
+<!-- 9. Comunicação (Deflationary) -->
+<tr class="h-9 hover:bg-surface-container-low transition-colors">
+<td class="font-medium text-primary flex items-center gap-2 pt-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                      Comunicação (Telefonia / Dados)
+                    </td>
+<td class="text-right tabular-nums text-on-surface font-metric-tabular">4,90%</td>
+<td class="text-right tabular-nums text-secondary font-bold font-metric-tabular">-0,85%</td>
+<td class="text-right tabular-nums font-bold text-secondary font-metric-tabular">-0,04</td>
+<td class="pl-4">
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden flex justify-end">
+<div class="bg-secondary h-2 rounded-full" style="width: 4%;"></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-outline-variant flex items-center justify-between text-label-sm font-label-sm text-on-surface-variant">
+<span>Nota: Impacto ponderado acumulado = <strong>4,42pp (Taxa 12M total)</strong></span>
+<span class="text-outline">IBGE / POF 2017-2018</span>
+</div>
+</div>
+<!-- COLUMN B (5 cols): Card de Análise e Projeções de Preços (Focus & BACEN) -->
+<div class="lg:col-span-5 flex flex-col gap-4">
+<!-- Card de Projeção Focus 2025 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-xs">
+<div class="flex items-center justify-between pb-3 border-b border-outline-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">insights</span>
+<h3 class="text-headline-sm font-headline-sm text-primary font-bold">Expectativas Focus (BACEN)</h3>
+</div>
+<span class="text-label-sm font-label-sm px-2 py-0.5 rounded bg-surface-container-high text-primary font-medium">Relatório Semanal</span>
+</div>
+<!-- Projeções Grid -->
+<div class="grid grid-cols-2 gap-3 my-4">
+<div class="p-3 rounded-lg bg-surface-container-low border border-outline-variant/60">
+<div class="text-label-sm font-label-sm text-on-surface-variant">IPCA 2025 (Mediana)</div>
+<div class="text-metric-display font-metric-display text-primary font-bold tabular-nums mt-1">4,10%</div>
+<div class="text-[11px] text-on-surface-variant mt-0.5">Dentro da meta (teto 4,50%)</div>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-low border border-outline-variant/60">
+<div class="text-label-sm font-label-sm text-on-surface-variant">IGP-M 2025 (Mediana)</div>
+<div class="text-metric-display font-metric-display text-primary font-bold tabular-nums mt-1">4,80%</div>
+<div class="text-[11px] text-on-surface-variant mt-0.5">Desaceleração do atacado</div>
+</div>
+</div>
+<!-- Alerta de Risco Macroeconômico -->
+<div class="p-3 rounded-lg bg-surface-container border-l-4 border-tertiary-fixed-dim text-body-sm font-body-sm space-y-1">
+<div class="flex items-center gap-1.5 font-semibold text-primary">
+<span class="material-symbols-outlined text-[16px] text-tertiary-fixed-dim">warning</span>
+<span>Fatores de Risco e Volatilidade</span>
+</div>
+<p class="text-on-surface-variant text-[12px] leading-relaxed">
+                Pressões de curto prazo concentradas em itens voláteis: anomalias climáticas sobre a safra de hortigranjeiros (Alimentação no Domicílio) e taxa de câmbio USD/BRL sobre insumos industriais importados.
+              </p>
+</div>
+</div>
+<!-- Mini Gráfico de Preços Livres vs Preços Administrados -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-xs flex-1 flex flex-col justify-between">
+<div class="flex items-center justify-between pb-2 border-b border-outline-variant">
+<div>
+<h4 class="text-label-md font-label-md text-primary font-bold tracking-tight">
+                  Preços Livres vs Preços Administrados
+                </h4>
+<p class="text-[11px] text-on-surface-variant">Decomposição regulatória dos preços ao consumidor</p>
+</div>
+<span class="material-symbols-outlined text-outline text-[18px]">balance</span>
+</div>
+<div class="space-y-4 my-3">
+<!-- Preços Administrados (Tarifas, Energia, Combustíveis, Planos) -->
+<div>
+<div class="flex items-center justify-between text-body-sm font-body-sm mb-1.5">
+<span class="font-medium text-primary flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-xs bg-primary"></span> Preços Administrados (Monitorados)
+                  </span>
+<span class="font-bold text-primary font-metric-tabular">5,20% <span class="text-[10px] text-on-surface-variant font-normal">(12M)</span></span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-3 overflow-hidden">
+<div class="bg-primary h-3 rounded-full" style="width: 65%;"></div>
+</div>
+<div class="flex justify-between text-[11px] text-on-surface-variant mt-1">
+<span>Peso: 25,3% da cesta</span>
+<span class="text-error font-medium">Acima do teto</span>
+</div>
+</div>
+<!-- Preços Livres (Mercado, Serviços, Industriais) -->
+<div>
+<div class="flex items-center justify-between text-body-sm font-body-sm mb-1.5">
+<span class="font-medium text-primary flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-xs bg-secondary"></span> Preços Livres de Mercado
+                  </span>
+<span class="font-bold text-secondary font-metric-tabular">4,10% <span class="text-[10px] text-on-surface-variant font-normal">(12M)</span></span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-3 overflow-hidden">
+<div class="bg-secondary h-3 rounded-full" style="width: 51%;"></div>
+</div>
+<div class="flex justify-between text-[11px] text-on-surface-variant mt-1">
+<span>Peso: 74,7% da cesta</span>
+<span class="text-secondary font-medium">Na meta</span>
+</div>
+</div>
+</div>
+<!-- Footer summary indicator -->
+<div class="pt-2 border-t border-outline-variant/60 flex items-center justify-between text-[11px] text-on-surface-variant">
+<span>Sensibilidade à taxa Selic: <strong>Alta em Livres</strong></span>
+<a class="text-primary font-semibold hover:underline flex items-center gap-0.5" href="#">
+                Ver séries completas <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Global Technical Status Baseline Footer -->
+<footer class="w-full bg-surface-container-lowest border-t border-outline-variant px-6 py-2.5 flex flex-col sm:flex-row items-center justify-between text-body-sm font-body-sm text-on-surface-variant">
+<div class="flex items-center gap-4 text-[11px]">
+<span>BrState Terminal Econômico © 2025</span>
+<span class="text-outline">|</span>
+<span>Banco Central do Brasil • IBGE • IBRE/FGV</span>
+<span class="text-outline">|</span>
+<span class="text-secondary font-medium flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> API Conectada: Latência 42ms
+        </span>
+</div>
+<div class="flex items-center gap-3 text-[11px]">
+<span>Última atualização: <strong>11/03/2025 às 09:00 BRT</strong></span>
+</div>
+</footer>
+</div>
+</body></html>
