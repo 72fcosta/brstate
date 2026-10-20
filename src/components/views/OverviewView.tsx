@@ -2,7 +2,6 @@ import React from 'react';
 import { SectionId } from '../../types';
 import { 
   PIB_ANNUAL_DATA, 
-  INFLATION_COMPARATIVE_SERIES, 
   SYSTEM_NOTIFICATIONS 
 } from '../../data/macroData';
 
@@ -21,13 +20,16 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onSelectSection, onO
             <span className="w-2 h-2 rounded-full bg-secondary-fixed animate-ping"></span>
             <span>Terminal Macroeconômico Soberano • Brasil</span>
             <span>•</span>
-            <span>Edição 2025</span>
+            <span className="badge-source bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold px-2.5 py-0.5 rounded-md inline-flex items-center gap-1 shadow-xs font-sans">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+              Base Consolidada
+            </span>
           </div>
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight">
             Painel Executivo de Inteligência Macroeconômica
           </h1>
           <p className="text-xs sm:text-sm text-on-primary-container mt-1 max-w-3xl leading-relaxed">
-            Consolidação analítica de atividade econômica (PIB), dinâmicas de preços e inflação (IPCA/IGP-M), política monetária e posicionamento das contas públicas.
+            Consolidação analítica de atividade econômica (PIB a +3,4%), dinâmicas de inflação parametrizadas por mandato (Bolsonaro vs. Lula), política monetária e posicionamento das contas públicas.
           </p>
         </div>
 
@@ -37,7 +39,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onSelectSection, onO
             className="px-3.5 py-2 rounded-md bg-secondary text-white text-xs font-semibold hover:bg-secondary/90 transition-colors flex items-center gap-1.5 shadow-sm"
           >
             <span className="material-symbols-outlined text-[17px]">trending_up</span>
-            <span>Painel do PIB</span>
+            <span>Painel do PIB (+3,4%)</span>
           </button>
           <button
             onClick={() => onSelectSection('inflacao')}
@@ -66,19 +68,19 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onSelectSection, onO
         >
           <div>
             <div className="flex items-center justify-between text-[11px] text-outline font-mono">
-              <span className="font-semibold text-primary">SCN • IBGE</span>
+              <span className="font-semibold text-primary">Atividade Econômica</span>
               <span className="group-hover:text-primary transition-colors flex items-center gap-0.5">
                 Detalhes <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
               </span>
             </div>
-            <div className="text-xs font-semibold text-on-surface-variant mt-1.5">PIB do Brasil (2024 Fechado)</div>
+            <div className="text-xs font-semibold text-on-surface-variant mt-1.5">PIB do Brasil (Consolidado 2024)</div>
             <div className="text-2xl font-bold text-primary mt-1 tabular-nums">
-              +3,1% <span className="text-sm font-normal text-on-surface-variant">real (R$ 11,3 Tri)</span>
+              +3,4% <span className="text-sm font-normal text-on-surface-variant">real (R$ 11,35 Tri)</span>
             </div>
           </div>
           <div className="mt-3 pt-2.5 border-t border-outline-variant/60 flex items-center justify-between text-xs">
-            <span className="text-secondary font-bold font-mono">▲ Serviços & Consumo</span>
-            <span className="text-[11px] text-outline font-mono">2025P: +2,2% Focus</span>
+            <span className="text-secondary font-bold font-mono">▲ +0.3pp oficial</span>
+            <span className="text-[11px] text-outline font-mono">2025P: +2,3% | 4ºA: +1,9%*</span>
           </div>
         </div>
 
@@ -89,19 +91,19 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onSelectSection, onO
         >
           <div>
             <div className="flex items-center justify-between text-[11px] text-outline font-mono">
-              <span className="font-semibold text-primary">IBGE • IPCA</span>
+              <span className="font-semibold text-primary">Inflação & Preços</span>
               <span className="group-hover:text-primary transition-colors flex items-center gap-0.5">
                 Detalhes <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
               </span>
             </div>
-            <div className="text-xs font-semibold text-on-surface-variant mt-1.5">Inflação Oficial (12 Meses)</div>
+            <div className="text-xs font-semibold text-on-surface-variant mt-1.5">IPCA 3º Ano Lula (2025)</div>
             <div className="text-2xl font-bold text-primary mt-1 tabular-nums">
-              4,42% <span className="text-xs font-medium text-secondary font-mono">(Teto 4,50%)</span>
+              4,25% <span className="text-xs font-medium text-secondary font-mono">(Na Meta CMN)</span>
             </div>
           </div>
           <div className="mt-3 pt-2.5 border-t border-outline-variant/60 flex items-center justify-between text-xs">
-            <span className="text-error font-bold font-mono">▲ IGP-M: 5,12%</span>
-            <span className="text-[11px] text-outline font-mono">Núcleo: 3,95%</span>
+            <span className="text-secondary font-bold font-mono">▼ -5,81 pp vs 3ºA Bol (10,06%)</span>
+            <span className="text-[11px] text-outline font-mono">4ºA: 3,11%</span>
           </div>
         </div>
 
@@ -112,7 +114,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onSelectSection, onO
         >
           <div>
             <div className="flex items-center justify-between text-[11px] text-outline font-mono">
-              <span className="font-semibold text-primary">BACEN • COPOM</span>
+              <span className="font-semibold text-primary">Política Monetária</span>
               <span className="group-hover:text-primary transition-colors flex items-center gap-0.5">
                 Detalhes <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
               </span>
@@ -135,19 +137,19 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onSelectSection, onO
         >
           <div>
             <div className="flex items-center justify-between text-[11px] text-outline font-mono">
-              <span className="font-semibold text-primary">PNAD CONTÍNUA</span>
+              <span className="font-semibold text-primary">Mercado de Trabalho</span>
               <span className="group-hover:text-primary transition-colors flex items-center gap-0.5">
                 Detalhes <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
               </span>
             </div>
-            <div className="text-xs font-semibold text-on-surface-variant mt-1.5">Taxa de Desocupação</div>
+            <div className="text-xs font-semibold text-on-surface-variant mt-1.5">Taxa de Desocupação (3º Ano)</div>
             <div className="text-2xl font-bold text-secondary mt-1 tabular-nums">
-              6,4% <span className="text-xs font-medium text-outline font-mono">(Mínima histórica)</span>
+              5,6% <span className="text-xs font-medium text-outline font-mono">(Mínima histórica)</span>
             </div>
           </div>
           <div className="mt-3 pt-2.5 border-t border-outline-variant/60 flex items-center justify-between text-xs">
-            <span className="text-secondary font-bold font-mono">▼ -0,4pp no trimestre</span>
-            <span className="text-[11px] text-outline font-mono">102,8M Ocupados</span>
+            <span className="text-secondary font-bold font-mono">Lula 7,8% → 5,3% Proj.</span>
+            <span className="text-[11px] text-outline font-mono">Bol: 11,9% → 9,3%</span>
           </div>
         </div>
 
@@ -158,7 +160,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onSelectSection, onO
         >
           <div>
             <div className="flex items-center justify-between text-[11px] text-outline font-mono">
-              <span className="font-semibold text-primary">BACEN • PTAX / MDIC</span>
+              <span className="font-semibold text-primary">Setor Externo & Câmbio</span>
               <span className="group-hover:text-primary transition-colors flex items-center gap-0.5">
                 Detalhes <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
               </span>
@@ -181,19 +183,19 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onSelectSection, onO
         >
           <div>
             <div className="flex items-center justify-between text-[11px] text-outline font-mono">
-              <span className="font-semibold text-primary">STN • BACEN</span>
+              <span className="font-semibold text-primary">Estatísticas Fiscais</span>
               <span className="group-hover:text-primary transition-colors flex items-center gap-0.5">
                 Detalhes <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
               </span>
             </div>
-            <div className="text-xs font-semibold text-on-surface-variant mt-1.5">Dívida Bruta (DBGG / PIB)</div>
+            <div className="text-xs font-semibold text-on-surface-variant mt-1.5">Dívida Bruta (DBGG 2025)</div>
             <div className="text-2xl font-bold text-primary mt-1 tabular-nums">
-              78,5% <span className="text-xs font-normal text-outline">do PIB</span>
+              78,64% <span className="text-xs font-normal text-outline">do PIB</span>
             </div>
           </div>
           <div className="mt-3 pt-2.5 border-t border-outline-variant/60 flex items-center justify-between text-xs">
-            <span className="text-outline font-medium font-mono">Resultado Primário: -0,6%</span>
-            <span className="text-[11px] text-secondary font-mono font-semibold">No Arcabouço</span>
+            <span className="text-outline font-medium font-mono">Bol: -2,76pp | Lula: +9,04pp</span>
+            <span className="text-[11px] text-secondary font-mono font-semibold">Consolidado</span>
           </div>
         </div>
       </div>
@@ -206,9 +208,9 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onSelectSection, onO
             <div>
               <h3 className="text-sm font-bold text-primary flex items-center gap-2">
                 <span className="material-symbols-outlined text-secondary text-[20px]">bar_chart</span>
-                Trajetória do PIB Anual (2019 – 2025)
+                Trajetória do PIB Anual (2019 – 2026*)
               </h3>
-              <p className="text-[11px] text-outline">Variação Real % das Contas Nacionais</p>
+              <p className="text-[11px] text-outline">Variação Real % oficial e projeções (*até 2º tri vs mesmo período anterior)</p>
             </div>
             <button
               onClick={() => onSelectSection('pib')}
@@ -218,7 +220,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onSelectSection, onO
             </button>
           </div>
 
-          <div className="grid grid-cols-7 gap-1 pt-2">
+          <div className="grid grid-cols-4 sm:grid-cols-8 gap-1 pt-2">
             {PIB_ANNUAL_DATA.map((item) => (
               <div key={item.year} className="flex flex-col items-center gap-1.5">
                 <div className="w-full bg-surface-container-low rounded-t flex flex-col justify-end h-24 p-1">
@@ -231,24 +233,27 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onSelectSection, onO
                     }}
                   ></div>
                 </div>
-                <span className="text-[10px] font-mono font-bold text-primary">
+                <span className="text-[10px] font-mono font-bold text-primary tabular-nums">
                   {item.variationReal > 0 ? `+${item.variationReal}%` : `${item.variationReal}%`}
+                  {item.footnote ? '*' : ''}
                 </span>
-                <span className="text-[9px] font-mono text-outline">{item.year}</span>
+                <span className="text-[9px] font-mono text-outline truncate max-w-full text-center">
+                  {item.year.includes('4º') ? '4ºA*' : item.year.replace(/[^\d]/g, '') || item.year}
+                </span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Inflation & Target Snapshot Preview */}
+        {/* Inflation & Mandates Snapshot Preview */}
         <div className="p-5 rounded-lg bg-surface-container-lowest border border-outline-variant shadow-xs space-y-3">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-sm font-bold text-primary flex items-center gap-2">
-                <span className="material-symbols-outlined text-tertiary-container text-[20px]">show_chart</span>
-                IPCA vs Banda Contínua CMN (2024 – 2025)
+                <span className="material-symbols-outlined text-secondary text-[20px]">compare_arrows</span>
+                IPCA: Comparativo Consolidado de Mandatos
               </h3>
-              <p className="text-[11px] text-outline">Convergência do índice acumulado em 12 meses</p>
+              <p className="text-[11px] text-outline">Dinâmica comparativa de inflação anual: Bolsonaro vs. Lula</p>
             </div>
             <button
               onClick={() => onSelectSection('inflacao')}
@@ -259,18 +264,49 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onSelectSection, onO
           </div>
 
           <div className="space-y-2 pt-2">
-            {INFLATION_COMPARATIVE_SERIES.slice(-5).map((point) => (
-              <div key={point.date} className="p-2.5 rounded bg-surface-container-low/50 border border-outline-variant/60 flex items-center justify-between text-xs">
-                <span className="font-mono font-bold text-primary">{point.date}</span>
-                <div className="flex items-center gap-4 font-mono">
-                  <span>IPCA: <strong className="text-secondary">{point.ipca12M}%</strong></span>
-                  <span>IGP-M: <strong className="text-tertiary-container">{point.igpm12M}%</strong></span>
-                  <span className="text-[10px] px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-semibold">
-                    Dentro da Meta (3,0% ± 1,5pp)
-                  </span>
-                </div>
+            <div className="p-2.5 rounded bg-surface-container-low/50 border border-outline-variant/60 flex items-center justify-between text-xs">
+              <span className="font-mono font-bold text-primary">1º Ano (2019 vs 2023)</span>
+              <div className="flex items-center gap-3 font-mono">
+                <span className="text-slate-700">Bol: <strong>4,31%</strong></span>
+                <span className="text-secondary">Lula: <strong>4,62%</strong></span>
+                <span className="text-[10px] px-1.5 py-0.2 rounded bg-surface-container text-primary font-bold">
+                  +0,31 pp
+                </span>
               </div>
-            ))}
+            </div>
+
+            <div className="p-2.5 rounded bg-surface-container-low/50 border border-outline-variant/60 flex items-center justify-between text-xs">
+              <span className="font-mono font-bold text-primary">2º Ano (2020 vs 2024)</span>
+              <div className="flex items-center gap-3 font-mono">
+                <span className="text-slate-700">Bol: <strong>4,52%</strong></span>
+                <span className="text-secondary">Lula: <strong>4,83%</strong></span>
+                <span className="text-[10px] px-1.5 py-0.2 rounded bg-surface-container text-primary font-bold">
+                  +0,31 pp
+                </span>
+              </div>
+            </div>
+
+            <div className="p-2.5 rounded bg-emerald-50/70 border border-emerald-200/80 flex items-center justify-between text-xs">
+              <span className="font-mono font-bold text-emerald-950">3º Ano (2021 vs 2025)</span>
+              <div className="flex items-center gap-3 font-mono">
+                <span className="text-error font-bold">Bol: 10,06%</span>
+                <span className="text-secondary font-bold">Lula: 4,25%</span>
+                <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 font-bold">
+                  -5,81 pp
+                </span>
+              </div>
+            </div>
+
+            <div className="p-2.5 rounded bg-surface-container-low/50 border border-outline-variant/60 flex items-center justify-between text-xs">
+              <span className="font-mono font-bold text-primary">4º Ano (2022 vs 2026 Proj.)</span>
+              <div className="flex items-center gap-3 font-mono">
+                <span className="text-slate-700">Bol: <strong>4,39%</strong></span>
+                <span className="text-secondary">Lula: <strong>3,11%</strong></span>
+                <span className="text-[10px] px-1.5 py-0.2 rounded bg-secondary-fixed text-on-secondary-fixed font-bold">
+                  -1,28 pp
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -12,11 +12,12 @@ export const MonetaryPolicyView: React.FC<MonetaryPolicyViewProps> = ({ onOpenEx
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-outline-variant">
         <div>
           <div className="flex items-center gap-2 text-xs font-mono text-outline mb-1">
-            <span className="font-semibold text-primary">BANCO CENTRAL DO BRASIL</span>
+            <span className="badge-source bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold px-2.5 py-1 rounded-md inline-flex items-center gap-1.5 shadow-xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+              Base Consolidada
+            </span>
             <span>•</span>
-            <span>Comitê de Política Monetária (COPOM)</span>
-            <span>•</span>
-            <span className="text-secondary font-semibold">SGS 432</span>
+            <span>Política Monetária & Curva de Juros</span>
           </div>
           <h1 className="text-xl sm:text-2xl font-bold text-primary tracking-tight">
             Política Monetária, Taxa Selic & Curva de Juros
@@ -39,7 +40,7 @@ export const MonetaryPolicyView: React.FC<MonetaryPolicyViewProps> = ({ onOpenEx
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="p-4 rounded-lg bg-surface-container-lowest border border-outline-variant shadow-xs">
           <div className="text-[11px] text-outline font-mono flex justify-between">
-            <span className="font-semibold text-primary">COPOM BACEN</span>
+            <span className="font-semibold text-primary">TAXA BÁSICA</span>
             <span>Decisão Vigente</span>
           </div>
           <div className="text-xs font-semibold text-on-surface-variant mt-1">Taxa Selic Meta</div>

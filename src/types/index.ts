@@ -13,7 +13,7 @@ export interface MacroIndicator {
   code: string;
   name: string;
   shortName: string;
-  source: 'IBGE' | 'BACEN' | 'FGV' | 'B3' | 'STN';
+  source: string;
   value: string;
   numericValue: number;
   unit: string;
@@ -35,6 +35,38 @@ export interface PibAnnualRecord {
   status: string;
   agency: string;
   isProjected?: boolean;
+  footnote?: string;
+}
+
+export interface InflationMandateRecord {
+  period: string; // '1º Ano', '2º Ano', '3º Ano', '4º Ano'
+  yearBolsonaro: string;
+  valBolsonaro: number;
+  yearLula: string;
+  valLula: number;
+  diffPp: number;
+  isProjectedLula?: boolean;
+  notes?: string;
+}
+
+export interface DebtMandateRecord {
+  period: string;
+  yearBolsonaro: string;
+  valBolsonaro: number;
+  yearLula: string;
+  valLula: number;
+  diffPp: number;
+  isProjectedLula?: boolean;
+}
+
+export interface UnemploymentMandateRecord {
+  period: string;
+  yearBolsonaro: string;
+  valBolsonaro: number;
+  yearLula: string;
+  valLula: number;
+  diffPp: number;
+  isProjectedLula?: boolean;
 }
 
 export interface InflationGroup {
@@ -72,4 +104,5 @@ export interface DiCurvePoint {
   rate: number;
   diffDay: number;
 }
+
 

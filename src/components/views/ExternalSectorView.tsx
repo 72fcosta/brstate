@@ -11,11 +11,12 @@ export const ExternalSectorView: React.FC<ExternalSectorViewProps> = ({ onOpenEx
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-outline-variant">
         <div>
           <div className="flex items-center gap-2 text-xs font-mono text-outline mb-1">
-            <span className="font-semibold text-primary">MDIC • SECEX / BACEN</span>
+            <span className="badge-source bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold px-2.5 py-1 rounded-md inline-flex items-center gap-1.5 shadow-xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+              Base Consolidada
+            </span>
             <span>•</span>
             <span>Setor Externo, Câmbio & Balanço de Pagamentos</span>
-            <span>•</span>
-            <span className="text-secondary font-semibold">PTAX SGS 1</span>
           </div>
           <h1 className="text-xl sm:text-2xl font-bold text-primary tracking-tight">
             Setor Externo, Câmbio & Balança Comercial
@@ -38,7 +39,7 @@ export const ExternalSectorView: React.FC<ExternalSectorViewProps> = ({ onOpenEx
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="p-4 rounded-lg bg-surface-container-lowest border border-outline-variant shadow-xs">
           <div className="text-[11px] text-outline font-mono flex justify-between">
-            <span className="font-semibold text-primary">SECEX / MDIC</span>
+            <span className="font-semibold text-primary">COMÉRCIO EXTERIOR</span>
             <span>12 Meses</span>
           </div>
           <div className="text-xs font-semibold text-on-surface-variant mt-1">Superávit Comercial</div>
@@ -53,7 +54,7 @@ export const ExternalSectorView: React.FC<ExternalSectorViewProps> = ({ onOpenEx
 
         <div className="p-4 rounded-lg bg-surface-container-lowest border border-outline-variant shadow-xs">
           <div className="text-[11px] text-outline font-mono flex justify-between">
-            <span className="font-semibold text-primary">BACEN</span>
+            <span className="font-semibold text-primary">TAXA DE CÂMBIO</span>
             <span>PTAX D-0</span>
           </div>
           <div className="text-xs font-semibold text-on-surface-variant mt-1">Câmbio USD / BRL</div>
@@ -69,7 +70,7 @@ export const ExternalSectorView: React.FC<ExternalSectorViewProps> = ({ onOpenEx
         <div className="p-4 rounded-lg bg-surface-container-lowest border border-outline-variant shadow-xs">
           <div className="text-[11px] text-outline font-mono flex justify-between">
             <span className="font-semibold text-primary">RESERVAS SOBERANAS</span>
-            <span>Ativo BACEN</span>
+            <span>Liquidez Soberana</span>
           </div>
           <div className="text-xs font-semibold text-on-surface-variant mt-1">Reservas Internacionais</div>
           <div className="text-2xl font-bold text-primary mt-1 tabular-nums">
@@ -138,7 +139,7 @@ export const ExternalSectorView: React.FC<ExternalSectorViewProps> = ({ onOpenEx
             O balanço de pagamentos brasileiro exibe solidez estrutural: as reservas de liquidez em dólar (US$ 355 Bi) superam amplamente o passivo de dívida externa de curto prazo. O déficit em transações correntes (-1,9% do PIB) é integralmente financiado por Investimento Direto no País (IDP a 3,1% do PIB), afastando pressões de balanço de pagamentos.
           </p>
           <div className="p-3 rounded-md bg-surface-container-low/50 border border-outline-variant text-[11px] text-outline flex items-center justify-between">
-            <span>Fontes: MDIC/SECEX Comex Stat & Banco Central do Brasil</span>
+            <span>Balança Comercial & Liquidez Internacional</span>
             <span className="text-primary font-semibold font-mono">Consolidado 2024/2025</span>
           </div>
         </div>

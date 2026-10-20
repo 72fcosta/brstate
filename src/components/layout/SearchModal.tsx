@@ -67,7 +67,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Digite termos como PIB, IPCA, Selic, BACEN-433, SIDRA-1620..."
+            placeholder="Digite termos como PIB, IPCA, Selic, Câmbio, Dívida..."
             className="w-full bg-transparent text-sm text-primary placeholder:text-outline outline-none"
           />
           {query && (
@@ -124,7 +124,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           <div className="flex items-center gap-4">
             <span>Navegação instantânea</span>
             <span>•</span>
-            <span>Índice Oficial SGS / SIDRA</span>
+            <span>Índice Oficial de Séries</span>
           </div>
           <button onClick={onClose} className="hover:text-primary text-[11px] font-medium">
             Fechar

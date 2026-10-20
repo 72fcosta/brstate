@@ -26,7 +26,35 @@ export const HeaderTicker: React.FC<HeaderTickerProps> = ({
             <span>Macro Ticker</span>
           </div>
           <div className="flex items-center gap-4 lg:gap-6 whitespace-nowrap text-[12px] font-metric-tabular">
-            {MACRO_TICKER_DATA.map((item, idx) => (
+            {/* Dedicated Ticker PIB */}
+            <div className="ticker-pib inline-flex items-center gap-1.5 group font-medium">
+              <span className="text-on-surface-variant text-[11px] font-bold">PIB 2024 (OFICIAL):</span>
+              <span className="font-bold text-primary">+3,4%</span>
+              <span className="inline-flex items-center text-[10px] font-bold text-secondary">
+                ▲ +0.3pp
+              </span>
+              <span className="text-outline text-[11px]">|</span>
+              <span className="text-on-surface-variant text-[11px] font-medium">PIB 2025 (PROJ.):</span>
+              <span className="font-semibold text-primary">+2,3%</span>
+            </div>
+
+            {/* Dedicated Ticker IPCA */}
+            <div className="ticker-ipca inline-flex items-center gap-1.5 group font-medium">
+              <span className="text-on-surface-variant text-[11px] font-bold">IPCA 3º Ano (Lula):</span>
+              <span className="font-bold text-primary">4,25%</span>
+              <span className="inline-flex items-center text-[10px] font-bold text-secondary">
+                ▼ Na Meta
+              </span>
+              <span className="text-outline text-[11px]">|</span>
+              <span className="text-on-surface-variant text-[11px] font-medium">Projeção 4º Ano:</span>
+              <span className="font-semibold text-primary">3,11%</span>
+              <span className="inline-flex items-center text-[10px] font-bold text-secondary">
+                ▼ Centro da Meta
+              </span>
+            </div>
+
+            {/* Remaining financial & sovereign indicators */}
+            {MACRO_TICKER_DATA.filter((item) => item.id !== 'pib' && item.id !== 'ipca').map((item, idx) => (
               <div key={idx} className="inline-flex items-center gap-1.5 group">
                 <span className="text-on-surface-variant text-[11px] font-medium">{item.label}:</span>
                 <span className="font-semibold text-primary">{item.value}</span>
@@ -38,9 +66,6 @@ export const HeaderTicker: React.FC<HeaderTickerProps> = ({
                   }`}
                 >
                   {item.isUp ? '▲' : '▼'} {item.delta}
-                </span>
-                <span className="text-[9px] text-outline px-1 rounded bg-surface-container font-mono hidden md:inline">
-                  {item.agency}
                 </span>
               </div>
             ))}
@@ -72,11 +97,17 @@ export const HeaderTicker: React.FC<HeaderTickerProps> = ({
             className="flex items-center gap-2.5 px-3 py-1.5 rounded-md bg-surface-container-low border border-outline-variant text-on-surface-variant hover:border-primary/40 hover:bg-surface-container transition-colors text-xs text-left w-52 sm:w-72 lg:w-96"
           >
             <span className="material-symbols-outlined text-[18px] text-outline">search</span>
-            <span className="flex-1 text-outline truncate">Buscar indicador, série SIDRA, BACEN...</span>
+            <span className="flex-1 text-outline truncate">Buscar indicador, série macroeconômica...</span>
             <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono text-outline bg-surface-container-lowest border border-outline-variant rounded">
               Ctrl+K
             </kbd>
           </button>
+
+          {/* Institutional Governance Badge */}
+          <div className="badge-source hidden xl:flex items-center gap-1.5 bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold px-2.5 py-1 rounded-md">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span>Base Consolidada</span>
+          </div>
         </div>
 
         {/* Action Controls */}

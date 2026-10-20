@@ -25,15 +25,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
       id: 'pib' as SectionId,
       label: 'Atividade Econômica / PIB',
       icon: 'trending_up',
-      badge: '+3,1%',
-      badgeColor: 'bg-secondary-fixed text-on-secondary-fixed',
+      badge: '+3,4%',
+      badgeColor: 'bg-secondary-fixed text-on-secondary-fixed font-bold',
     },
     {
       id: 'inflacao' as SectionId,
       label: 'Inflação & Preços',
       icon: 'price_change',
-      badge: '4,42%',
-      badgeColor: 'bg-tertiary-fixed text-on-tertiary-fixed',
+      badge: '4,25%',
+      badgeColor: 'bg-secondary-fixed text-on-secondary-fixed font-bold',
     },
     {
       id: 'selic' as SectionId,
@@ -209,17 +209,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
           {/* Institutional Telemetry Footer */}
           <div className="p-3 border-t border-outline-variant bg-surface-container-low/50">
-            <div className="p-2.5 rounded bg-surface-container-lowest border border-outline-variant text-[11px] space-y-1.5">
+            <div className="p-2.5 rounded bg-surface-container-lowest border border-outline-variant text-[11px] space-y-1.5 shadow-xs">
               <div className="flex items-center justify-between">
-                <span className="text-outline font-medium">Conexão Oficial</span>
-                <span className="inline-flex items-center gap-1 text-secondary font-semibold">
-                  <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
-                  Live (42ms)
+                <span className="text-outline font-medium">Status da Base</span>
+                <span className="inline-flex items-center gap-1.5 text-emerald-700 font-semibold text-[11px]">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  Sincronizada
                 </span>
               </div>
-              <div className="text-[10px] text-on-surface-variant flex items-center justify-between">
-                <span>SIDRA • BACEN v2.4</span>
-                <span className="font-mono text-outline">D-0</span>
+              <div className="pt-1 border-t border-outline-variant/60 flex items-center gap-1.5 text-[10.5px] font-semibold text-emerald-800 bg-emerald-50/80 px-2 py-1 rounded border border-emerald-200/70">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+                <span className="truncate">Base Consolidada</span>
               </div>
             </div>
           </div>

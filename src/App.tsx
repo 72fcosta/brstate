@@ -98,19 +98,17 @@ export const App: React.FC = () => {
         {/* Institutional Baseline Footer */}
         <footer className="w-full bg-surface-container-lowest border-t border-outline-variant px-4 lg:px-6 py-3 flex flex-col sm:flex-row items-center justify-between text-xs text-on-surface-variant gap-2 mt-auto">
           <div className="flex flex-wrap items-center gap-3 text-[11px]">
-            <span className="font-bold text-primary">BrState Terminal Macroeconômico © 2025</span>
-            <span className="text-outline">|</span>
-            <span>Fontes Primárias: BACEN • IBGE • IBRE/FGV • STN</span>
-            <span className="text-outline">|</span>
+            <span className="font-bold text-primary">BrState Terminal Macroeconômico</span>
+            <span className="text-outline">•</span>
+            <span className="font-medium text-primary">Autoria dos dados atuais: Fábio Ryan Meneses Costa</span>
+            <span className="text-outline">•</span>
             <span className="text-secondary font-medium inline-flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-secondary"></span>
-              API Conectada: Latência 42ms
+              Base Consolidada
             </span>
           </div>
 
           <div className="flex items-center gap-4 text-[11px] font-mono text-outline">
-            <span>Metodologia SNA 2008</span>
-            <span>•</span>
             <span>Frequência D-0</span>
           </div>
         </footer>

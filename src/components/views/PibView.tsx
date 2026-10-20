@@ -6,17 +6,17 @@ interface PibViewProps {
 }
 
 export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
-  const [selectedPeriod, setSelectedPeriod] = useState<'1A' | '3A' | '2019-2025' | 'MAX'>('2019-2025');
+  const [selectedPeriod, setSelectedPeriod] = useState<'1A' | '3A' | '2019-2026' | 'MAX'>('2019-2026');
   const [metricMode, setMetricMode] = useState<'real' | 'current'>('real');
-  const [activeDataIndex, setActiveDataIndex] = useState<number | null>(5); // 2024 default active
+  const [activeDataIndex, setActiveDataIndex] = useState<number | null>(5); // 2024 default active (+3,4%)
   const [searchTableQuery, setSearchTableQuery] = useState('');
   const [sortAsc, setSortAsc] = useState(false);
 
   // Filtered annual data based on period selection
   const filteredData = PIB_ANNUAL_DATA.filter((item) => {
-    if (selectedPeriod === '1A') return item.year === '2024' || item.year.includes('2025');
-    if (selectedPeriod === '3A') return ['2022', '2023', '2024', '2025 (P)'].includes(item.year);
-    return true; // '2019-2025' or 'MAX'
+    if (selectedPeriod === '1A') return item.year.includes('2024') || item.year.includes('2025') || item.year.includes('4º');
+    if (selectedPeriod === '3A') return ['2023', '2024', '2025 (P)', '4º Ano Lula (*)'].some((y) => item.year.includes(y));
+    return true; // '2019-2026' or 'MAX'
   });
 
   const tableData = [...filteredData]
@@ -31,8 +31,8 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
       );
     })
     .sort((a, b) => {
-      const aVal = parseFloat(a.year);
-      const bVal = parseFloat(b.year);
+      const aVal = parseFloat(a.year.replace(/[^\d.]/g, '')) || 2026;
+      const bVal = parseFloat(b.year.replace(/[^\d.]/g, '')) || 2026;
       return sortAsc ? aVal - bVal : bVal - aVal;
     });
 
@@ -44,7 +44,7 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
   // Height 280, top padding 20, bottom padding 40 => usable height 220
   const chartHeight = 280;
   const chartWidth = 900;
-  const paddingX = 70;
+  const paddingX = 65;
   const stepX = (chartWidth - paddingX * 2) / (PIB_ANNUAL_DATA.length - 1);
 
   const getYCoord = (val: number) => {
@@ -57,11 +57,11 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
 
   const zeroY = getYCoord(0);
 
-  // Generate SVG path for line
+  // Generate SVG polyline coordinate points
+  // Solid points: 2019 to 2024 (indices 0 to 5)
   const solidPoints = PIB_ANNUAL_DATA.slice(0, 6).map((d, i) => `${paddingX + i * stepX},${getYCoord(d.variationReal)}`);
-  const solidPath = `M ${solidPoints.join(' L ')}`;
-  const projectedPoint = `${paddingX + 6 * stepX},${getYCoord(PIB_ANNUAL_DATA[6].variationReal)}`;
-  const projectedPath = `M ${solidPoints[solidPoints.length - 1]} L ${projectedPoint}`;
+  // Projected points: 2024 (index 5) to 2025 (index 6) to 4º Ano (index 7)
+  const projectedPoints = [5, 6, 7].map((i) => `${paddingX + i * stepX},${getYCoord(PIB_ANNUAL_DATA[i].variationReal)}`);
 
   return (
     <div className="space-y-6">
@@ -69,17 +69,18 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-outline-variant">
         <div>
           <div className="flex items-center gap-2 text-xs font-mono text-outline mb-1">
-            <span className="font-semibold text-primary">SCN / IBGE</span>
+            <span className="font-semibold text-primary">Contas Nacionais</span>
             <span>•</span>
-            <span>Contas Nacionais Trimestrais e Anuais</span>
-            <span>•</span>
-            <span className="text-secondary font-semibold">Tabela SIDRA 1620</span>
+            <span className="badge-source bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold px-2.5 py-1 rounded-md inline-flex items-center gap-1.5 shadow-xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+              Base Consolidada
+            </span>
           </div>
           <h1 className="text-xl sm:text-2xl font-bold text-primary tracking-tight">
             Atividade Econômica & Produto Interno Bruto (PIB) do Brasil
           </h1>
           <p className="text-xs sm:text-sm text-on-surface-variant mt-0.5">
-            Monitoramento estrutural do volume de atividade, investimento (FBCF), consumo agregado e valor adicionado setorial.
+            Série histórica consolidada: 2019 a 2024 e projeções 2025/4º Ano.
           </p>
         </div>
 
@@ -87,7 +88,7 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
         <div className="flex flex-wrap items-center gap-2.5">
           {/* Time range selector */}
           <div className="inline-flex rounded-md border border-outline-variant p-0.5 bg-surface-container-low text-xs">
-            {(['1A', '3A', '2019-2025', 'MAX'] as const).map((period) => (
+            {(['1A', '3A', '2019-2026', 'MAX'] as const).map((period) => (
               <button
                 key={period}
                 onClick={() => setSelectedPeriod(period)}
@@ -97,7 +98,7 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
                     : 'text-on-surface-variant hover:text-primary'
                 }`}
               >
-                {period === '2019-2025' ? '2019–2025' : period}
+                {period === '2019-2026' ? '2019–2026*' : period}
               </button>
             ))}
           </div>
@@ -130,23 +131,31 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
 
       {/* 4 Sovereign Indicator KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Card 1: Volume Total do PIB */}
+        {/* Card 1: PIB BRASIL (ANUAL) */}
         <div className="p-4 rounded-lg bg-surface-container-lowest border border-outline-variant shadow-xs hover:border-primary/30 transition-all flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between text-[11px] text-outline font-mono">
-              <span className="font-semibold text-primary">SCN-IBGE</span>
-              <span>2024 Preliminar</span>
+              <span className="font-semibold text-primary">Série Histórica</span>
+              <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-secondary-fixed text-on-secondary-fixed font-mono">
+                Consolidado 2024
+              </span>
             </div>
-            <div className="text-xs font-semibold text-on-surface-variant mt-1">Volume Total do PIB</div>
-            <div className="text-2xl font-bold text-primary mt-1 tabular-nums">
-              {metricMode === 'real' ? 'R$ 11,30 Tri' : 'R$ 11.302 Bi'}
+            <div className="text-xs font-semibold text-on-surface-variant mt-1">PIB BRASIL (ANUAL)</div>
+            <div className="text-2xl font-bold text-primary mt-1 tabular-nums flex items-baseline gap-2">
+              +3,4%
+              <span className="text-xs font-normal text-on-surface-variant font-sans">
+                {metricMode === 'real' ? '(R$ 11,35 Tri)' : '(R$ 11.350 Bi)'}
+              </span>
             </div>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-outline-variant/60 flex items-center justify-between text-xs">
-            <span className="text-secondary font-bold flex items-center gap-0.5 font-mono">
-              ▲ +3,1% <span className="text-[10px] text-on-surface-variant font-normal">a/a real</span>
-            </span>
-            <span className="text-[11px] text-outline font-mono">2023: R$ 10,86 Tri</span>
+          <div className="mt-3 pt-2.5 border-t border-outline-variant/60 flex flex-col gap-1 text-xs">
+            <div className="flex items-center justify-between">
+              <span className="text-secondary font-bold font-mono">▲ +0.3pp vs est. anterior</span>
+              <span className="text-[11px] text-outline font-mono">2023: +3,2%</span>
+            </div>
+            <div className="text-[10px] text-outline font-mono pt-1 border-t border-outline-variant/40 leading-tight">
+              Projeção 2025 (3º Ano): <strong className="text-primary">+2,3%</strong> | Proj. 4º Ano (*até 2º tri): <strong className="text-primary">+1,9%*</strong>
+            </div>
           </div>
         </div>
 
@@ -154,7 +163,7 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
         <div className="p-4 rounded-lg bg-surface-container-lowest border border-outline-variant shadow-xs hover:border-primary/30 transition-all flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between text-[11px] text-outline font-mono">
-              <span className="font-semibold text-primary">IBGE-DPE</span>
+              <span className="font-semibold text-primary">Renda Per Capita</span>
               <span>Pop: 212,6M</span>
             </div>
             <div className="text-xs font-semibold text-on-surface-variant mt-1">PIB per Capita</div>
@@ -175,7 +184,7 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
           <div>
             <div className="flex items-center justify-between text-[11px] text-outline font-mono">
               <span className="font-semibold text-primary">FBCF / PIB</span>
-              <span>IBGE</span>
+              <span>Investimento</span>
             </div>
             <div className="text-xs font-semibold text-on-surface-variant mt-1">Taxa de Investimento</div>
             <div className="text-2xl font-bold text-primary mt-1 tabular-nums">
@@ -226,34 +235,34 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-base font-bold text-primary">
-                Evolução do PIB Brasileiro: Variação Percentual Anual (2019 – 2025)
+                Evolução do PIB Brasileiro: Variação Percentual Anual (2019 – 2026*)
               </h2>
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-surface-container text-on-surface-variant">
-                Volume Real
-              </span>
             </div>
             <p className="text-xs text-outline mt-0.5">
-              Trajetória do crescimento econômico com destaques para choques, reaberturas e projeção Focus.
+              Trajetória oficial (Bolsonaro 2019–2022 vs Lula 2023–2026*). Projeção 4º ano (*até 2º tri vs mesmo período anterior).
             </p>
           </div>
 
           {/* Legend and Active Point Callout */}
-          <div className="flex items-center gap-4 text-xs font-medium">
+          <div className="flex flex-wrap items-center gap-4 text-xs font-medium">
             <div className="flex items-center gap-1.5">
               <span className="w-3 h-0.5 bg-primary"></span>
-              <span className="text-on-surface-variant">Dado Oficial (IBGE)</span>
+              <span className="text-on-surface-variant">Dado Oficial (2019–2024)</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="w-3 h-0.5 border-t-2 border-dashed border-primary/60"></span>
-              <span className="text-outline">Projeção Focus (BACEN)</span>
+              <span className="w-3 h-0.5 border-t-2 border-dashed border-primary/70"></span>
+              <span className="text-outline">Projeções (2025 / 4º Ano*)</span>
+            </div>
+            <div className="text-[11px] text-outline font-mono">
+              *Até 2º tri vs mesmo período anterior
             </div>
           </div>
         </div>
 
-        {/* SVG Chart Container */}
-        <div className="relative overflow-x-auto bg-surface-container-low/20 rounded-md p-3 border border-outline-variant/50">
+        {/* SVG Chart Container with .pib-chart-container */}
+        <div className="pib-chart-container relative overflow-x-auto bg-surface-container-low/20 rounded-md p-3 border border-outline-variant/50">
           <svg
-            className="w-full h-auto min-w-[700px] overflow-visible select-none"
+            className="w-full h-auto min-w-[750px] overflow-visible select-none"
             viewBox={`0 0 ${chartWidth} ${chartHeight}`}
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -287,18 +296,19 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
               );
             })}
 
-            {/* Zero Axis highlighted band */}
-            <rect
-              x={paddingX}
-              y={zeroY}
-              width={chartWidth - paddingX * 2}
-              height="1"
-              fill="#0f2a4a"
+            {/* Zero Axis highlighted line */}
+            <line
+              x1={paddingX}
+              y1={zeroY}
+              x2={chartWidth - paddingX}
+              y2={zeroY}
+              stroke="#0f2a4a"
+              strokeWidth="1.5"
             />
 
-            {/* Solid Historical Trendline */}
-            <path
-              d={solidPath}
+            {/* SVG Polylines: Solid Historical Trendline (2019-2024) */}
+            <polyline
+              points={solidPoints.join(' ')}
               fill="none"
               stroke="#0f2a4a"
               strokeWidth="2.75"
@@ -306,17 +316,18 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
               strokeLinejoin="round"
             />
 
-            {/* Dashed 2025 Projection Trendline */}
-            <path
-              d={projectedPath}
+            {/* SVG Polylines: Dashed Projection Trendline (2024 to 2025 to 4º Ano) */}
+            <polyline
+              points={projectedPoints.join(' ')}
               fill="none"
               stroke="#0f2a4a"
               strokeWidth="2.5"
-              strokeDasharray="6 6"
+              strokeDasharray="4,4"
               strokeLinecap="round"
+              strokeLinejoin="round"
             />
 
-            {/* Bars for magnitude indication under points */}
+            {/* Bars and Circles for magnitude and point interaction */}
             {PIB_ANNUAL_DATA.map((d, i) => {
               const x = paddingX + i * stepX;
               const y = getYCoord(d.variationReal);
@@ -324,18 +335,22 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
               const barY = d.variationReal >= 0 ? y : zeroY;
               const isPositive = d.variationReal >= 0;
               const isSelected = activeDataIndex === i;
+              const isProjected = d.isProjected;
 
               return (
                 <g key={d.year} className="cursor-pointer" onClick={() => setActiveDataIndex(i)}>
-                  {/* Subtle bar */}
+                  {/* Magnitude indicator bar */}
                   <rect
                     x={x - 14}
                     y={barY}
                     width="28"
                     height={barHeight}
                     rx="2"
-                    fill={isPositive ? '#059669' : '#dc2626'}
-                    opacity={isSelected ? '0.35' : '0.15'}
+                    fill={isPositive ? (isProjected ? '#059669' : '#059669') : '#dc2626'}
+                    opacity={isSelected ? '0.38' : isProjected ? '0.12' : '0.18'}
+                    stroke={isProjected ? '#059669' : 'none'}
+                    strokeWidth={isProjected ? '1' : '0'}
+                    strokeDasharray={isProjected ? '2 2' : 'none'}
                     className="transition-opacity hover:opacity-40"
                   />
 
@@ -353,38 +368,40 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
                     />
                   )}
 
-                  {/* Year point circle */}
+                  {/* Year point circle (SVG circle in .pib-chart-container) */}
                   <circle
                     cx={x}
                     cy={y}
-                    r={isSelected ? '6.5' : '4.5'}
-                    fill={isSelected ? '#059669' : '#ffffff'}
-                    stroke={isSelected ? '#0f2a4a' : '#0f2a4a'}
-                    strokeWidth="2.5"
+                    r={isSelected ? '6.5' : isProjected ? '5' : '4.5'}
+                    fill={isSelected ? '#059669' : isProjected ? '#ecfdf5' : '#ffffff'}
+                    stroke={isSelected ? '#0f2a4a' : isProjected ? '#059669' : '#0f2a4a'}
+                    strokeWidth={isProjected ? '2.5' : '2.5'}
+                    strokeDasharray={isProjected ? '2 1' : 'none'}
                     className="transition-all"
                   />
 
                   {/* Value tag badge */}
                   <rect
-                    x={x - 22}
+                    x={x - 24}
                     y={isPositive ? y - 24 : y + 10}
-                    width="44"
+                    width="48"
                     height="18"
                     rx="3"
-                    fill={isSelected ? '#0f2a4a' : '#f8f9ff'}
-                    stroke={isSelected ? '#0f2a4a' : '#cbd5e1'}
+                    fill={isSelected ? '#0f2a4a' : isProjected ? '#ecfdf5' : '#f8f9ff'}
+                    stroke={isSelected ? '#0f2a4a' : isProjected ? '#a7f3d0' : '#cbd5e1'}
                     strokeWidth="1"
                   />
                   <text
                     x={x}
                     y={isPositive ? y - 11 : y + 23}
                     textAnchor="middle"
-                    fontSize="11"
+                    fontSize="10.5"
                     fontFamily="Inter, monospace"
                     fontWeight="bold"
                     fill={isSelected ? '#ffffff' : isPositive ? '#059669' : '#dc2626'}
                   >
                     {d.variationReal > 0 ? `+${d.variationReal.toFixed(1)}%` : `${d.variationReal.toFixed(1)}%`}
+                    {d.footnote ? '*' : ''}
                   </text>
 
                   {/* Year X label */}
@@ -392,7 +409,7 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
                     x={x}
                     y="262"
                     textAnchor="middle"
-                    fontSize="12"
+                    fontSize="11"
                     fontFamily="Inter, monospace"
                     fontWeight={isSelected ? 'bold' : '500'}
                     fill={isSelected ? '#0f2a4a' : '#475569'}
@@ -428,7 +445,6 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
               <span className="px-2 py-1 rounded bg-surface-container text-on-surface-variant font-medium border border-outline-variant">
                 {currentRecord.status}
               </span>
-              <span className="text-outline text-[11px]">{currentRecord.agency}</span>
             </div>
           </div>
         )}
@@ -501,8 +517,8 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
           </div>
 
           <div className="pt-2 border-t border-outline-variant/60 text-[11px] text-outline flex items-center justify-between">
-            <span>Metodologia SCN: Valor Adicionado a Preços Básicos</span>
-            <span className="font-mono text-secondary font-semibold">Consistência IBGE</span>
+            <span>Metodologia: Valor Adicionado a Preços Básicos</span>
+            <span className="font-mono text-secondary font-semibold">Série Consolidada</span>
           </div>
         </div>
       </div>
@@ -513,10 +529,10 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
           <div>
             <h3 className="text-sm font-bold text-primary flex items-center gap-2">
               <span className="material-symbols-outlined text-outline text-[19px]">table_rows</span>
-              Demonstrativo Comparativo Anual do PIB (2019 – 2025)
+              Demonstrativo Comparativo Anual do PIB (2019 – 2026*)
             </h3>
             <p className="text-xs text-outline mt-0.5">
-              Valores nominais e reais auditados pelas Contas Nacionais do IBGE e projeção Bacen Focus.
+              Valores nominais e reais auditados. *Até 2º tri vs mesmo período anterior.
             </p>
           </div>
 
@@ -564,10 +580,9 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
                 <th className="py-2.5 px-3 font-semibold text-right">Per Capita</th>
                 <th className="py-2.5 px-3 font-semibold">Driver Principal de Demanda</th>
                 <th className="py-2.5 px-3 font-semibold text-center">Status</th>
-                <th className="py-2.5 px-3 font-semibold text-right">Órgão Oficial</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-outline-variant/50 font-metric-tabular">
+            <tbody className="divide-y divide-outline-variant/50 font-metric-tabular" style={{ fontVariantNumeric: 'tabular-nums' }}>
               {tableData.map((row) => (
                 <tr
                   key={row.year}
@@ -577,16 +592,17 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
                 >
                   <td className="py-2.5 px-3 font-bold text-primary font-mono">{row.year}</td>
                   <td
-                    className={`py-2.5 px-3 text-right font-bold font-mono ${
+                    className={`py-2.5 px-3 text-right font-bold font-mono tabular-nums ${
                       row.variationReal >= 0 ? 'text-secondary' : 'text-error'
                     }`}
                   >
                     {row.variationReal > 0 ? `+${row.variationReal.toFixed(1)}%` : `${row.variationReal.toFixed(1)}%`}
+                    {row.footnote ? '*' : ''}
                   </td>
-                  <td className="py-2.5 px-3 text-right font-medium text-primary">
+                  <td className="py-2.5 px-3 text-right font-medium text-primary tabular-nums">
                     R$ {row.pibCorrenteTri.toFixed(2)} Tri
                   </td>
-                  <td className="py-2.5 px-3 text-right font-medium text-on-surface">
+                  <td className="py-2.5 px-3 text-right font-medium text-on-surface tabular-nums">
                     R$ {row.pibPerCapita.toLocaleString('pt-BR')}
                   </td>
                   <td className="py-2.5 px-3 text-on-surface-variant">{row.driverDemanda}</td>
@@ -595,6 +611,8 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
                       className={`px-2 py-0.5 rounded text-[10px] font-mono font-semibold border ${
                         row.status.includes('Projeção')
                           ? 'bg-primary-container text-white border-primary-fixed-dim/40'
+                          : row.status.includes('Consolidado 2024')
+                          ? 'bg-emerald-100 text-emerald-800 border-emerald-300 font-bold'
                           : row.status.includes('Preliminar')
                           ? 'bg-secondary-fixed text-on-secondary-fixed border-secondary'
                           : 'bg-surface-container text-on-surface-variant border-outline-variant'
@@ -603,7 +621,6 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
                       {row.status}
                     </span>
                   </td>
-                  <td className="py-2.5 px-3 text-right text-outline font-mono text-[11px]">{row.agency}</td>
                 </tr>
               ))}
             </tbody>
@@ -612,19 +629,11 @@ export const PibView: React.FC<PibViewProps> = ({ onOpenExport }) => {
 
         {/* Methodology Footnote */}
         <div className="pt-3 border-t border-outline-variant flex flex-col sm:flex-row sm:items-center justify-between text-[11px] text-outline gap-2">
-          <div className="flex items-center gap-1.5">
-            <span className="material-symbols-outlined text-[15px]">info</span>
-            <span>Metodologia aderente ao Manual SNA 2008 (ONU/FMI/Banco Mundial). Ano base das Contas Nacionais: 2010.</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="material-symbols-outlined text-[15px] text-secondary">verified</span>
+            <span><strong>*Nota Oficial de Rodapé:</strong> *Até 2º tri vs mesmo período anterior.</span>
           </div>
-          <a
-            href="https://sidra.ibge.gov.br"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary hover:underline font-medium inline-flex items-center gap-1"
-          >
-            <span>Metadados Oficiais IBGE Sidra</span>
-            <span className="material-symbols-outlined text-[13px]">open_in_new</span>
-          </a>
+          <span className="text-on-surface-variant font-mono">Sistema de Contas Nacionais</span>
         </div>
       </div>
     </div>

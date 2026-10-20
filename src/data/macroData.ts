@@ -1,5 +1,8 @@
 import { 
   PibAnnualRecord, 
+  InflationMandateRecord,
+  DebtMandateRecord,
+  UnemploymentMandateRecord,
   InflationGroup, 
   InflationMonthlyPoint, 
   FocusProjection, 
@@ -7,82 +10,204 @@ import {
 } from '../types';
 
 export const MACRO_TICKER_DATA = [
-  { label: 'PIB Anual', value: '+3,1%', delta: '+0,1pp', isUp: true, good: true, agency: 'IBGE' },
-  { label: 'IPCA 12M', value: '4,42%', delta: '+0,08pp', isUp: true, good: false, agency: 'IBGE', note: 'Teto 4,50%' },
-  { label: 'IGP-M 12M', value: '5,12%', delta: '+0,34pp', isUp: true, good: false, agency: 'FGV' },
-  { label: 'Selic Meta', value: '13,25%', delta: '+0,50pp', isUp: true, good: false, agency: 'BACEN' },
-  { label: 'USD/BRL', value: 'R$ 5,74', delta: '+0,42%', isUp: true, good: false, agency: 'PTAX' },
-  { label: 'IBOVESPA', value: '128.450 pts', delta: '-0,18%', isUp: false, good: false, agency: 'B3' },
-  { label: 'Desocupação', value: '6,4%', delta: '-0,4pp', isUp: false, good: true, agency: 'PNAD' },
-  { label: 'Dívida/PIB', value: '78,5%', delta: '+0,2pp', isUp: true, good: false, agency: 'STN' },
+  { 
+    id: 'pib',
+    label: 'PIB 2024 (OFICIAL)', 
+    value: '+3,4%', 
+    delta: '+0.3pp', 
+    isUp: true, 
+    good: true, 
+    agency: 'Fábio Ryan Meneses Costa', 
+    note: 'PIB 2025 (PROJ.): +2,3%' 
+  },
+  { 
+    id: 'ipca',
+    label: 'IPCA 3º Ano (Lula)', 
+    value: '4,25%', 
+    delta: 'Na Meta', 
+    isUp: false, 
+    good: true, 
+    agency: 'Fábio Ryan Meneses Costa', 
+    note: 'Projeção 4º Ano: 3,11% ▼ Centro da Meta' 
+  },
+  { id: 'selic', label: 'Selic Meta', value: '13,25%', delta: '+0,50pp', isUp: true, good: false, agency: 'Fábio Ryan Meneses Costa' },
+  { id: 'cambio', label: 'USD/BRL', value: 'R$ 5,74', delta: '+0,42%', isUp: true, good: false, agency: 'Fábio Ryan Meneses Costa' },
+  { id: 'ibov', label: 'IBOVESPA', value: '128.450 pts', delta: '-0,18%', isUp: false, good: false, agency: 'Fábio Ryan Meneses Costa' },
+  { id: 'desemprego', label: 'Desocupação FUV', value: '5,6%', delta: '5,3% Proj.', isUp: false, good: true, agency: 'Fábio Ryan Meneses Costa' },
+  { id: 'divida', label: 'Dívida/PIB FUV', value: '78,64%', delta: '+2,37pp', isUp: true, good: false, agency: 'Fábio Ryan Meneses Costa' },
 ];
 
 export const PIB_ANNUAL_DATA: PibAnnualRecord[] = [
   {
     year: '2019',
-    variationReal: 1.4,
+    variationReal: 1.2,
     pibCorrenteTri: 7.39,
     pibPerCapita: 35161,
-    driverDemanda: 'Consumo das Famílias e Reformas Iniciais',
-    status: 'Consolidado',
-    agency: 'SCN-IBGE'
+    driverDemanda: '1º Ano Bolsonaro: Consumo das Famílias e Reformas Iniciais',
+    status: 'Consolidado Oficial',
+    agency: 'Fábio Ryan Meneses Costa'
   },
   {
     year: '2020',
     variationReal: -3.3,
     pibCorrenteTri: 7.61,
     pibPerCapita: 35936,
-    driverDemanda: 'Choque Covid-19 / Auxílio Emergencial',
-    status: 'Consolidado',
-    agency: 'SCN-IBGE'
+    driverDemanda: '2º Ano Bolsonaro: Choque Covid-19 / Auxílio Emergencial',
+    status: 'Consolidado Oficial (Choque)',
+    agency: 'Fábio Ryan Meneses Costa'
   },
   {
     year: '2021',
     variationReal: 4.8,
     pibCorrenteTri: 8.90,
     pibPerCapita: 41745,
-    driverDemanda: 'Reabertura Econômica & Commodities',
-    status: 'Consolidado',
-    agency: 'SCN-IBGE'
+    driverDemanda: '3º Ano Bolsonaro: Reabertura Econômica & Commodities',
+    status: 'Consolidado Oficial',
+    agency: 'Fábio Ryan Meneses Costa'
   },
   {
     year: '2022',
     variationReal: 3.0,
     pibCorrenteTri: 10.08,
     pibPerCapita: 49330,
-    driverDemanda: 'Retomada de Serviços & Estímulo Fiscal',
-    status: 'Consolidado',
-    agency: 'SCN-IBGE'
+    driverDemanda: '4º Ano Bolsonaro: Retomada de Serviços & Estímulo Fiscal',
+    status: 'Consolidado Oficial',
+    agency: 'Fábio Ryan Meneses Costa'
   },
   {
     year: '2023',
     variationReal: 3.2,
     pibCorrenteTri: 10.86,
     pibPerCapita: 52340,
-    driverDemanda: 'Safra Recorde do Agronegócio',
-    status: 'Consolidado',
-    agency: 'SCN-IBGE'
+    driverDemanda: '1º Ano Lula: Super Safra do Agronegócio',
+    status: 'Consolidado Oficial',
+    agency: 'Fábio Ryan Meneses Costa'
   },
   {
     year: '2024',
-    variationReal: 3.1,
-    pibCorrenteTri: 11.30,
+    variationReal: 3.4,
+    pibCorrenteTri: 11.35,
     pibPerCapita: 54120,
-    driverDemanda: 'Serviços e Consumo das Famílias',
-    status: 'Preliminar Fechado',
-    agency: 'SCN-IBGE'
+    driverDemanda: '2º Ano Lula: Serviços e Consumo das Famílias',
+    status: 'Consolidado 2024 (FUV)',
+    agency: 'Fábio Ryan Meneses Costa'
   },
   {
     year: '2025 (P)',
-    variationReal: 2.2,
-    pibCorrenteTri: 11.94,
+    variationReal: 2.3,
+    pibCorrenteTri: 12.02,
     pibPerCapita: 56800,
-    driverDemanda: 'Investimento FBCF e Manufatura',
-    status: 'Projeção Bacen Focus',
-    agency: 'BACEN',
+    driverDemanda: '3º Ano Lula: Investimento FBCF e Manufatura',
+    status: 'Projeção 2025',
+    agency: 'Fábio Ryan Meneses Costa',
     isProjected: true
+  },
+  {
+    year: '4º Ano Lula (*)',
+    variationReal: 1.9,
+    pibCorrenteTri: 12.65,
+    pibPerCapita: 59100,
+    driverDemanda: '4º Ano Lula: Projeção de Médio Prazo (*Até 2º tri vs mesmo período anterior)',
+    status: 'Projeção 4º Ano*',
+    agency: 'Fábio Ryan Meneses Costa',
+    isProjected: true,
+    footnote: '*Até 2º tri vs mesmo período anterior'
   }
 ];
+
+export const FUV_INFLATION_MANDATE_DATA: {
+  rows: InflationMandateRecord[];
+  averageCycle: {
+    bolsonaro: number;
+    lula: number;
+    diffPp: number;
+  };
+} = {
+  rows: [
+    {
+      period: '1º Ano',
+      yearBolsonaro: '2019',
+      valBolsonaro: 4.31,
+      yearLula: '2023',
+      valLula: 4.62,
+      diffPp: 0.31,
+      notes: '1º ano: Bol 4,31% vs Lula 4,62% (+0,31 pp)',
+    },
+    {
+      period: '2º Ano',
+      yearBolsonaro: '2020',
+      valBolsonaro: 4.52,
+      yearLula: '2024',
+      valLula: 4.83,
+      diffPp: 0.31,
+      notes: '2º ano: Bol 4,52% vs Lula 4,83% (+0,31 pp)',
+    },
+    {
+      period: '3º Ano',
+      yearBolsonaro: '2021',
+      valBolsonaro: 10.06,
+      yearLula: '2025',
+      valLula: 4.25,
+      diffPp: -5.81,
+      isProjectedLula: false,
+      notes: 'Destaque: Bol 10,06% (Pico/Estouro) vs Lula 4,25% (Na Meta) [-5,81 pp]',
+    },
+    {
+      period: '4º Ano',
+      yearBolsonaro: '2022',
+      valBolsonaro: 4.39,
+      yearLula: '2026 (Proj.)',
+      valLula: 3.11,
+      diffPp: -1.28,
+      isProjectedLula: true,
+      notes: 'Convergência: Bol 4,39% vs Lula 3,11% (Centro da Meta CMN) [-1,28 pp]',
+    },
+  ],
+  averageCycle: {
+    bolsonaro: 5.82,
+    lula: 4.20,
+    diffPp: -1.62,
+  },
+};
+
+export const FUV_DEBT_MANDATE_DATA: {
+  rows: DebtMandateRecord[];
+  netVariation: {
+    bolsonaro: number;
+    lula: number;
+  };
+} = {
+  rows: [
+    { period: '1º Ano', yearBolsonaro: '2019', valBolsonaro: 74.44, yearLula: '2023', valLula: 73.83, diffPp: -0.61 },
+    { period: '2º Ano', yearBolsonaro: '2020', valBolsonaro: 86.94, yearLula: '2024', valLula: 76.27, diffPp: -10.67 },
+    { period: '3º Ano', yearBolsonaro: '2021', valBolsonaro: 77.31, yearLula: '2025', valLula: 78.64, diffPp: 1.33 },
+    { period: '4º Ano', yearBolsonaro: '2022', valBolsonaro: 71.68, yearLula: '2026 (Proj.)', valLula: 82.87, diffPp: 11.19, isProjectedLula: true },
+  ],
+  netVariation: {
+    bolsonaro: -2.76, // 71.68% - 74.44%
+    lula: 9.04,       // 82.87% - 73.83%
+  },
+};
+
+export const FUV_UNEMPLOYMENT_MANDATE_DATA: {
+  rows: UnemploymentMandateRecord[];
+  netVariation: {
+    bolsonaro: number;
+    lula: number;
+  };
+} = {
+  rows: [
+    { period: '1º Ano', yearBolsonaro: '2019', valBolsonaro: 11.9, yearLula: '2023', valLula: 7.8, diffPp: -4.1 },
+    { period: '2º Ano', yearBolsonaro: '2020', valBolsonaro: 13.5, yearLula: '2024', valLula: 6.6, diffPp: -6.9 },
+    { period: '3º Ano', yearBolsonaro: '2021', valBolsonaro: 13.2, yearLula: '2025', valLula: 5.6, diffPp: -7.6 },
+    { period: '4º Ano', yearBolsonaro: '2022', valBolsonaro: 9.3, yearLula: '2026 (Proj.)', valLula: 5.3, diffPp: -4.0, isProjectedLula: true },
+  ],
+  netVariation: {
+    bolsonaro: -2.6, // 9.3% - 11.9%
+    lula: -2.5,       // 5.3% - 7.8%
+  },
+};
+
 
 export const PIB_SECTOR_BREAKDOWN = [
   { name: 'Serviços', percentage: 69.8, value: 'R$ 6,84 Tri', growth: '+3,4%', color: '#0f2a4a', note: 'Intermediação financeira, comércio varejista e transportes' },
@@ -127,8 +252,8 @@ export const INFLATION_COMPARATIVE_SERIES: InflationMonthlyPoint[] = [
 ];
 
 export const FOCUS_PROJECTIONS: FocusProjection[] = [
-  { indicator: 'IPCA (% a.a.)', actual: '4,42%', targetOrRef: '3,00% (Meta)', exp2025: '4,95%', exp2026: '4,00%', exp2027: '3,60%', trend: 'up' },
-  { indicator: 'PIB Total (% a.a.)', actual: '+3,10%', targetOrRef: '+2,00% (Potencial)', exp2025: '2,20%', exp2026: '1,95%', exp2027: '2,00%', trend: 'stable' },
+  { indicator: 'IPCA (% a.a.)', actual: '4,25%', targetOrRef: '3,00% (Meta)', exp2025: '4,25%', exp2026: '3,11%', exp2027: '3,50%', trend: 'down' },
+  { indicator: 'PIB Total (% a.a.)', actual: '+3,40%', targetOrRef: '+2,00% (Potencial)', exp2025: '2,30%', exp2026: '1,90%', exp2027: '2,00%', trend: 'stable' },
   { indicator: 'Taxa Selic (% fim período)', actual: '13,25%', targetOrRef: '9,50% (Neutra)', exp2025: '14,00%', exp2026: '12,50%', exp2027: '11,00%', trend: 'up' },
   { indicator: 'Câmbio USD/BRL (fim período)', actual: 'R$ 5,74', targetOrRef: 'R$ 5,50', exp2025: 'R$ 5,80', exp2026: 'R$ 5,85', exp2027: 'R$ 5,90%', trend: 'up' },
   { indicator: 'IGP-M (% a.a.)', actual: '5,12%', targetOrRef: '4,50%', exp2025: '5,25%', exp2026: '4,20%', exp2027: '4,00%', trend: 'down' },
@@ -145,20 +270,20 @@ export const DI_FUTURES_CURVE: DiCurvePoint[] = [
 ];
 
 export const SEARCH_INDEX = [
-  { title: 'PIB Anual e Contas Nacionais', section: 'pib', code: 'SIDRA-1620', category: 'Atividade Econômica', keywords: 'pib produto interno bruto fbcf consumo investimento ibge' },
-  { title: 'IPCA - Índice Nacional de Preços ao Consumidor Amplo', section: 'inflacao', code: 'BACEN-433', category: 'Inflação & Preços', keywords: 'ipca inflacao precos cmn meta ibge cesta' },
-  { title: 'IGP-M - Índice Geral de Preços do Mercado', section: 'inflacao', code: 'BACEN-189', category: 'Inflação & Preços', keywords: 'igpm fgv ibre atacado aluguel ipa' },
-  { title: 'Taxa Selic Over / Meta Copom', section: 'selic', code: 'BACEN-432', category: 'Política Monetária', keywords: 'selic juros copom taxa basica di futuro' },
-  { title: 'Mercado de Trabalho (PNAD Contínua)', section: 'trabalho', code: 'SIDRA-6318', category: 'Emprego & Renda', keywords: 'desemprego desocupacao salario renda pnad caged' },
-  { title: 'Dívida Bruta do Governo Geral (DBGG)', section: 'fiscal', code: 'BACEN-13762', category: 'Fiscal', keywords: 'divida bruta dbgg pib fiscal primario tesouro stn' },
-  { title: 'Balança Comercial & Reservas Internacionais', section: 'externo', code: 'MDIC-BC', category: 'Setor Externo', keywords: 'exportacao importacao cambio dolar reservas ptax' },
-  { title: 'Expectativas Boletim Focus', section: 'inflacao', code: 'BACEN-FOCUS', category: 'Projeções de Mercado', keywords: 'focus projecoes consenso analistas 2025 2026' },
-  { title: 'Preços Livres vs Preços Administrados', section: 'inflacao', code: 'BACEN-4449', category: 'Inflação & Preços', keywords: 'administrados tarifas energia combustiveis livres servicos' },
+  { title: 'PIB Anual e Contas Nacionais', section: 'pib', code: 'PIB-BR', category: 'Atividade Econômica', keywords: 'pib produto interno bruto fbcf consumo investimento fabio ryan meneses costa' },
+  { title: 'IPCA - Comparativo Consolidado de Mandatos Presidenciais', section: 'inflacao', code: 'IPCA-MANDATOS', category: 'Inflação & Preços', keywords: 'ipca mandatos lula bolsonaro comparativo inflacao precos cmn meta fabio ryan meneses costa' },
+  { title: 'IGP-M - Índice Geral de Preços do Mercado', section: 'inflacao', code: 'IGPM-BR', category: 'Inflação & Preços', keywords: 'igpm atacado aluguel ipa precos' },
+  { title: 'Taxa Selic Over / Meta Copom', section: 'selic', code: 'SELIC-BR', category: 'Política Monetária', keywords: 'selic juros copom taxa basica di futuro' },
+  { title: 'Mercado de Trabalho - Taxa de Desocupação', section: 'trabalho', code: 'TRAB-BR', category: 'Emprego & Renda', keywords: 'desemprego desocupacao salario renda mandatos' },
+  { title: 'Dívida Bruta do Governo Geral (DBGG)', section: 'fiscal', code: 'DBGG-BR', category: 'Fiscal', keywords: 'divida bruta dbgg pib fiscal primario tesouro mandatos' },
+  { title: 'Balança Comercial & Reservas Internacionais', section: 'externo', code: 'EXT-BR', category: 'Setor Externo', keywords: 'exportacao importacao cambio dolar reservas' },
+  { title: 'Expectativas Boletim de Mercado', section: 'inflacao', code: 'EXP-BR', category: 'Projeções de Mercado', keywords: 'projecoes consenso 2025 2026' },
+  { title: 'Preços Livres vs Preços Administrados', section: 'inflacao', code: 'PRECOS-BR', category: 'Inflação & Preços', keywords: 'administrados tarifas energia combustiveis livres servicos' },
 ];
 
 export const SYSTEM_NOTIFICATIONS = [
-  { id: '1', title: 'Ata do Copom nº 267', time: 'Hoje, 08:30', body: 'Comitê reforça compromisso com convergência da inflação à meta em ambiente de atividade resiliente.', category: 'Monetária', unread: true },
-  { id: '2', title: 'Divulgação IPCA-15 Março', time: 'Ontem, 09:00', body: 'IPCA-15 registrou variação de +0,36%, influenciado por itens de alimentação e mensalidades escolares.', category: 'Inflação', unread: true },
-  { id: '3', title: 'Revisão Contas Trimestrais IBGE', time: '18/03, 10:15', body: 'PIB do 4º trimestre consolida expansão de +3,1% no fechamento do ano civil de 2024.', category: 'PIB', unread: false },
-  { id: '4', title: 'Boletim Focus Atualizado', time: '17/03, 08:25', body: 'Mediana para Selic 2025 mantida em 14,00% e IPCA 2025 estimado em 4,95%.', category: 'Focus', unread: false }
+  { id: '1', title: 'Base Oficial Consolidada', time: 'Hoje, 09:00', body: 'Painéis macroeconômicos parametrizados e sincronizados com a matriz comparativa de mandatos presidenciais (Bolsonaro vs. Lula). Base Oficial Consolidada.', category: 'Governança', unread: true },
+  { id: '2', title: 'PIB 2024 Consolidado a +3,4%', time: 'Ontem, 10:15', body: 'Contas agregadas fecham expansão de +3,4% no ano civil de 2024 com projeção 2025 a +2,3% e 4º ano a +1,9%*.', category: 'PIB', unread: true },
+  { id: '3', title: 'IPCA 3º Ano Convergindo à Meta (4,25%)', time: '18/03, 08:30', body: 'Contraste favorável de -5,81 pp contra o 3º ano anterior (10,06%), apontando para 3,11% no 4º ano.', category: 'Inflação', unread: false },
+  { id: '4', title: 'Ata de Política Monetária nº 267', time: '17/03, 08:25', body: 'Comitê reforça compromisso com convergência da inflação à meta em ambiente de atividade resiliente.', category: 'Monetária', unread: false }
 ];
